@@ -40,17 +40,17 @@ namespace DALTests
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 connection.Open();
-                cmd.CommandText = "DELETE FROM tblManager WHERE managerID = 1";
+                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {managers[0].ManagerID}";
                 cmd.ExecuteNonQuery();
                 connection.Close();
 
                 connection.Open();
-                cmd.CommandText = "DELETE FROM tblManager WHERE managerID = 2";
+                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {managers[1].ManagerID}";
                 cmd.ExecuteNonQuery();
                 connection.Close();
 
                 connection.Open();
-                cmd.CommandText = "DELETE FROM tblManager WHERE managerID = 3";
+                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {managers[2].ManagerID}";
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
@@ -63,15 +63,71 @@ namespace DALTests
             DAL.DeleteByID(managers[1].ManagerID);
             DAL.DeleteByID(managers[2].ManagerID); //start by getByID then add then delete then update then go home and relax
                                                    //(if you're already home then don't even try to do this)
-
-            //Assert.IsTrue(managers.Count)
+            short count = 0;
+            for (int i = 0;i<3;i++)
+            {
+                Manager manager = GetByID(managers[i].ManagerID);
+                if (manager != null)
+                    count++;
+            }
+            Assert.IsTrue(count == 0);
         }
         [Test]
         public void GetByIDTest()
         {
-            Manager actual = managers[0];
-            Manager expected = DAL.GetByID(managers[0].ManagerID);
-            Assert.AreEqual(actual,expected);
+            Manager expected = managers[0];
+            Manager actual = DAL.GetByID(managers[0].ManagerID);
+            Assert.AreEqual(expected,actual);
+        }
+
+
+        [Test]
+        public void AddTest()
+        {
+            var addedManager = AddManagerToDBPlusReturn(4);
+
+            var gotManager = DAL.GetByID(addedManager.ManagerID);
+
+            DeleteManager(addedManager.ManagerID);
+
+            Assert.AreEqual(addedManager, gotManager);
+        }
+        [Test]
+        public void UpdateTest()
+        {
+            string newFN = "newFN";
+            string newLN = "newLN";
+            string newUN = "newUN";
+            string newPW = "newPW";
+            short newInvID = 0;
+
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                connection.Open();
+                cmd.CommandText = $"UPDATE tblManager SET firstName = 'newFN', lastName = 'newLN', userName = 'newUN', password = 'newPW', inventoryID = 0 WHERE managerID = {managers[1].ManagerID}";
+                cmd.ExecuteNonQuery();
+                connection.Close();
+            }
+            Manager updatedManger = new Manager
+            {
+                ManagerID = managers[1].ManagerID,
+                FirstName = newFN,
+                LastName = newLN,
+                UserName = newUN,
+                Password = newPW,
+                InventoryID = newInvID
+            };
+
+            Assert.AreEqual(DAL.GetByID(managers[1].ManagerID), updatedManger);
+
+        }
+        [Test]
+        public void GetAllTest()
+        {
+            List<Manager> gotList = DAL.GetAll();
+
+            for (int i = 0; i < gotList.Count; i++)
+                Assert.AreEqual(managers[i], gotList[i]);
         }
         public Manager AddManagerToDBPlusReturn(short number)
         {
@@ -84,7 +140,7 @@ namespace DALTests
                 return new Manager
                 {
                     ManagerID = (short)id,
-                    FirstName = $"fn{number}",
+                    FirstName = $"fN{number}",
                     LastName = $"lN{number}",
                     UserName = $"uN{number}",
                     Password = $"pw{number}",
@@ -97,7 +153,40 @@ namespace DALTests
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {id}";
-                return (int)cmd.ExecuteNonQuery();
+                connection.Open();
+                int result = cmd.ExecuteNonQuery();
+                connection.Close();
+                return result;
+            }
+        }
+
+
+        
+        public Manager GetByID(short id)
+        {
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                cmd.CommandText = $"SELECT * FROM tblManager WHERE managerID = {id}";
+                connection.Open();
+                SqlDataReader reader =  cmd.ExecuteReader();
+
+
+                if(reader.Read())
+                {
+                    var manager = new Manager
+                    {
+                        ManagerID = (short)id,
+                        FirstName = reader.GetString(0),
+                        LastName = reader.GetString(1),
+                        UserName = reader.GetString(2),
+                        Password = reader.GetString(3),
+                        InventoryID = reader.GetInt16(4)
+                    };
+                    connection.Close();
+                    return manager;
+                }
+                connection.Close();
+                return null;
             }
         }
     }
