@@ -84,7 +84,8 @@ namespace DAL.Beton
 
 
                 if (reader.Read())
-                    return new Manager
+                {
+                    Manager manager = new Manager
                     {
                         ManagerID = Convert.ToInt16(reader["managerID"]),
                         FirstName = reader["firstName"].ToString(),
@@ -93,6 +94,8 @@ namespace DAL.Beton
                         Password = reader["password"].ToString(),
                         InventoryID = Convert.ToInt16(reader["inventoryID"])
                     };
+                    return manager;
+                }
                 return null;
             }
         }
