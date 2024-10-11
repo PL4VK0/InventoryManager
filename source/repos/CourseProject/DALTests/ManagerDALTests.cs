@@ -40,17 +40,7 @@ namespace DALTests
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 connection.Open();
-                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {managers[0].ManagerID}";
-                cmd.ExecuteNonQuery();
-                connection.Close();
-
-                connection.Open();
-                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {managers[1].ManagerID}";
-                cmd.ExecuteNonQuery();
-                connection.Close();
-
-                connection.Open();
-                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {managers[2].ManagerID}";
+                cmd.CommandText = $"DELETE FROM tblManager WHERE 1 = 1";
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
