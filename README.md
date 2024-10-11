@@ -1,4 +1,4 @@
-this is the erm of my project (not all of the tables have been implemented yet)
+this is the erd of my project (not all of the tables have been implemented yet)
 '*' - primary key
 '_' - foreign key
 
