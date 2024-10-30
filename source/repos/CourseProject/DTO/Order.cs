@@ -4,8 +4,24 @@
     {
         private short orderID;
         private short managerID;
-        private short inventoryID;
-
+        private DateTime date = DateTime.UtcNow;
+        private short wareID;
+        private short count;
+        public short WareID
+        {
+            get { return wareID; }
+            set { wareID = value; }
+        }
+        public short Count
+        {
+            get { return count; }
+            set { count = value; }
+        }
+        public DateTime Date
+        {
+            get { return date; }
+            set { date = value; }
+        }
 
         public short OrderID
         { 
@@ -17,15 +33,10 @@
             get { return managerID; }
             set { managerID = value; }
         }
-        public short InventoryID
-        {
-            get { return inventoryID; }
-            set { inventoryID = value; }
-        }
 
         public override string ToString()
         {
-            return $"OrderID - {orderID}, ManagerID - {managerID}, InventoryID - {InventoryID}";
+            return $"OrderID - {orderID}, ManagerID - {managerID}, Date - {Date}";
         }
     }
 }

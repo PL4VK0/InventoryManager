@@ -15,13 +15,12 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "INSERT INTO tblManager (firstName,lastName,userName,password,inventoryID) output inserted.managerID VALUES (@firstName,@lastName,@userName,@password,@inventoryID)";
+                cmd.CommandText = "INSERT INTO tblManager (firstName,lastName,userName,password) output inserted.managerID VALUES (@firstName,@lastName,@userName,@password)";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("firstName", manager.FirstName);
                 cmd.Parameters.AddWithValue("lastName", manager.LastName);
                 cmd.Parameters.AddWithValue("userName", manager.UserName);
                 cmd.Parameters.AddWithValue("password", manager.Password);
-                cmd.Parameters.AddWithValue("inventoryID", manager.InventoryID);
                 _connection.Open();
                 manager.ManagerID = Convert.ToInt16(cmd.ExecuteScalar());
                 _connection.Close();
@@ -49,7 +48,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT managerID, firstName, lastName, userName, password, inventoryID FROM tblManager";
+                cmd.CommandText = "SELECT managerID, firstName, lastName, userName, password FROM tblManager";
 
                 _connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -62,8 +61,7 @@ namespace DAL.Beton
                         FirstName = reader["firstName"].ToString(),
                         LastName = reader["lastName"].ToString(),
                         UserName = reader["userName"].ToString(),
-                        Password = reader["password"].ToString(),
-                        InventoryID = Convert.ToInt16(reader["inventoryID"])
+                        Password = reader["password"].ToString()
                     });
                 }
                 _connection.Close();
@@ -73,13 +71,12 @@ namespace DAL.Beton
 
         public Manager GetByID(short id)
         {
+            _connection.Open();
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT managerID, firstName,lastName,userName,password,inventoryID FROM tblManager WHERE managerID = @managerID";
+                cmd.CommandText = "SELECT managerID, firstName,lastName,userName,password FROM tblManager WHERE managerID = @managerID";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("managerID", id);
-
-                _connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
 
 
@@ -91,11 +88,12 @@ namespace DAL.Beton
                         FirstName = reader["firstName"].ToString(),
                         LastName = reader["lastName"].ToString(),
                         UserName = reader["userName"].ToString(),
-                        Password = reader["password"].ToString(),
-                        InventoryID = Convert.ToInt16(reader["inventoryID"])
+                        Password = reader["password"].ToString()
                     };
+                    _connection.Close();
                     return manager;
                 }
+                _connection.Close ();
                 return null;
             }
         }
@@ -104,14 +102,13 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "UPDATE tblManager SET firstName = @firstName,lastName = @lastName, userName = @userName, password = @password, inventoryID = @inventoryID WHERE managerID = @managerID";
+                cmd.CommandText = "UPDATE tblManager SET firstName = @firstName,lastName = @lastName, userName = @userName, password = @password WHERE managerID = @managerID";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("managerID", manager.ManagerID);
                 cmd.Parameters.AddWithValue("firstName", manager.FirstName);
                 cmd.Parameters.AddWithValue("lastName", manager.LastName);
                 cmd.Parameters.AddWithValue("userName", manager.UserName);
                 cmd.Parameters.AddWithValue("password",manager.Password);
-                cmd.Parameters.AddWithValue("inventoryID",manager.InventoryID);
                 _connection.Open();
                 cmd.ExecuteNonQuery();
                 _connection.Close();

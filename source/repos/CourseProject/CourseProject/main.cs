@@ -3,10 +3,7 @@ using DAL.Beton;
 using DTO;
 using Microsoft.Extensions.Configuration;
 
-IConfiguration config = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("config.json")
-    .Build();
+IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile("config.json").Build();
 
 
 string connectionString = config.GetConnectionString("InventoryManager");

@@ -46,7 +46,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT wareID, wareName, wareDescription FROM tblWare";
+                cmd.CommandText = "SELECT wareID, wareName, wareDescription, wareCost FROM tblWare";
 
                 _connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -57,7 +57,8 @@ namespace DAL.Beton
                     {
                         WareID = Convert.ToInt16(reader["wareID"]),
                         WareName = reader["wareName"].ToString(),
-                        WareDescription = reader["wareDescription"].ToString()
+                        WareDescription = reader["wareDescription"].ToString(),
+                        Cost =(float)Convert.ToDouble(reader["wareCost"])
                     });
                 }
                 _connection.Close();

@@ -6,5 +6,8 @@ namespace DAL.Abstract
     {
         List<WareInventory> GetAll();
         WareInventory Add(WareInventory wareInventory);
+        short DeleteByID(short id);
+        void Update(WareInventory wareInventory);
+        WareInventory GetByID(short id);
     }
 }

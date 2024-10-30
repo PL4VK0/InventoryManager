@@ -9,7 +9,6 @@ namespace DTO
         private string lastName;
         private string userName;
         private string password;
-        private short inventoryID;
 
         public short ManagerID
         {
@@ -37,15 +36,10 @@ namespace DTO
             get { return password; }
             set { password = value; }
         }
-        public short InventoryID
-        {
-            get { return inventoryID; }
-            set { inventoryID = value; }
-        }
 
         public override string ToString()
         {
-            return $"{managerID} - {firstName} {lastName}, AKA {userName} works at inventory {inventoryID}";
+            return $"{managerID} - {firstName} {lastName}, AKA {userName}";
         }
 
 
@@ -59,7 +53,6 @@ namespace DTO
                    other.LastName == lastName&&
                    other.UserName == userName&&
                    other.Password == password&&
-                   other.InventoryID == inventoryID&&
                    other.ManagerID==managerID;
         }
     }

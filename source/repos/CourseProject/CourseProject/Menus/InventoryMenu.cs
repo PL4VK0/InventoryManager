@@ -10,107 +10,106 @@ namespace CourseProject.Menus
 {
     public class InventoryMenu
     {
-        private readonly InventoryDAL iDAL;
+        private readonly WareInventoryDAL iDAL;
         public InventoryMenu(string connectionString)
-        { iDAL = new InventoryDAL(connectionString); }
+        { iDAL = new WareInventoryDAL(connectionString); }
         public void Show()
         {
-            char input;
-            do
-            {
+            //char input;
+            //do
+            //{
 
-                Console.WriteLine("1 - Add new inventory\n" +
-                                  "2 - Show all inventories\n" +
-                                  "3 - Update inventory by id\n" +
-                                  "4 - Delete inventory by id\n" +
-                                  "0 - Go back");
-                input = Convert.ToChar(Console.ReadLine());
+            //    Console.WriteLine("1 - Add new inventory\n" +
+            //                      "2 - Show all inventories\n" +
+            //                      "3 - Update inventory by id\n" +
+            //                      "4 - Delete inventory by id\n" +
+            //                      "0 - Go back");
+            //    input = Convert.ToChar(Console.ReadLine());
 
-                switch (input)
-                {
-                    case '1':
-                        AddInventory();
-                        break;
-                    case '2':
-                        ListAllInventories();
-                        break;
-                    case '3':
-                        UpdateInventoryByID();
-                        break;
-                    case '4':
-                        DeleteInventoryByID();
-                        break;
-                }
-            } while (input != '0');
+            //    switch (input)
+            //    {
+            //        case '1':
+            //            AddInventory();
+            //            break;
+            //        case '2':
+            //            ListAllInventories();
+            //            break;
+            //        case '3':
+            //            UpdateInventoryByID();
+            //            break;
+            //        case '4':
+            //            DeleteInventoryByID();
+            //            break;
+            //    }
+            //} while (input != '0');
         }
         void UpdateInventoryByID()
         {
-            ListAllInventories();
+            //ListAllInventories();
 
-            short id;
+            //short id;
 
-            Console.WriteLine("Enter the id of the inventory you want to change: ");
+            //Console.WriteLine("Enter the id of the inventory you want to change: ");
 
-            id = Convert.ToInt16(Console.ReadLine());
+            //id = Convert.ToInt16(Console.ReadLine());
 
-            short cityID;
+            //short cityID;
 
-            Console.WriteLine("Enter new cityID: ");
-            cityID = Convert.ToInt16(Console.ReadLine());
+            //Console.WriteLine("Enter new cityID: ");
+            //cityID = Convert.ToInt16(Console.ReadLine());
 
-            Inventory updatedInventory = new Inventory
-            {
-                CityID = cityID,
-                InventoryID = id
-            };
-            iDAL.Update(updatedInventory);
-            Console.WriteLine($"Updated to\n{updatedInventory}");
+            //WareInventory updatedInventory = new WareInventory
+            //{
+            //    CityID = cityID,
+            //    InventoryID = id
+            //};
+            //iDAL.Update(updatedInventory);
+            //Console.WriteLine($"Updated to\n{updatedInventory}");
         }
 
         void DeleteInventoryByID()
         {
-            ListAllInventories();
+            //ListAllInventories();
 
-            short id;
-            Console.WriteLine("Enter the id of inventory you want to destroy: ");
-            id = Convert.ToInt16(Console.ReadLine());
+            //short id;
+            //Console.WriteLine("Enter the id of inventory you want to destroy: ");
+            //id = Convert.ToInt16(Console.ReadLine());
 
-            short deleted = iDAL.DeleteByID(id);
-            if (deleted == 0)
-            {
-                Console.WriteLine("No inventory was found with such id...");
-                return;
-            }
-            Console.WriteLine($"Deleted inventory with id {id}...");
+            //short deleted = iDAL.DeleteByID(id);
+            //if (deleted == 0)
+            //{
+            //    Console.WriteLine("No inventory was found with such id...");
+            //    return;
+            //}
+            //Console.WriteLine($"Deleted inventory with id {id}...");
         }
 
         void ListAllInventories()
         {
-            var inventories = iDAL.GetAll();
+            //var inventories = iDAL.GetAll();
 
-            if (inventories.Count == 0)
-            {
-                Console.WriteLine("There are no inventories...");
-                return;
-            }
-            foreach (var inventory in inventories)
-            {
-                Console.WriteLine(inventory);
-            }
+            //if (inventories.Count == 0)
+            //{
+            //    Console.WriteLine("There are no inventories...");
+            //    return;
+            //}
+            //foreach (var inventory in inventories)
+            //{
+            //    Console.WriteLine(inventory);
+            //}
 
         }
         void AddInventory()
         {
-            short cityID;
+            //short cityID;
 
-            Console.WriteLine("Enter id of the city: ");
-            cityID = Convert.ToInt16(Console.ReadLine());
+            //Console.WriteLine("Enter id of the city: ");
+            //cityID = Convert.ToInt16(Console.ReadLine());
 
-            var inventory = new Inventory
-            { CityID = cityID };
-            var newInventory = iDAL.Add(inventory);
-            Console.WriteLine($"Added\n{newInventory}");
+            //var inventory = new WareInventory
+            //{ CityID = cityID };
+            //var newInventory = iDAL.Add(inventory);
+            //Console.WriteLine($"Added\n{newInventory}");
         }
-
     }
 }

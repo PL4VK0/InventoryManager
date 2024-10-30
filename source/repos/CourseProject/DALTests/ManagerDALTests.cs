@@ -10,7 +10,7 @@ namespace DALTests
         private readonly ManagerDAL DAL;
         private readonly List<Manager> managers;
         private readonly string connectionString;
-        private readonly SqlConnection connection;
+        private SqlConnection connection;
         public ManagerDALTests()
         {
             IConfiguration config = new ConfigurationBuilder()
@@ -26,12 +26,10 @@ namespace DALTests
         [SetUp] //before everytest
         public void Setup()
         {
-            using (SqlCommand cmd = connection.CreateCommand())
-            {
-                managers.Add(AddManagerToDBPlusReturn(1));
-                managers.Add(AddManagerToDBPlusReturn(2));
-                managers.Add(AddManagerToDBPlusReturn(3));
-            }
+            managers.Clear();
+            managers.Add(AddManagerToDBPlusReturn(1));
+            managers.Add(AddManagerToDBPlusReturn(2));
+            managers.Add(AddManagerToDBPlusReturn(3));
         }
 
         [TearDown] //after everytest
@@ -39,8 +37,8 @@ namespace DALTests
         {
             using (SqlCommand cmd = connection.CreateCommand())
             {
-                connection.Open();
                 cmd.CommandText = $"DELETE FROM tblManager WHERE 1 = 1";
+                connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
@@ -54,7 +52,7 @@ namespace DALTests
             DAL.DeleteByID(managers[2].ManagerID); //start by getByID then add then delete then update then go home and relax
                                                    //(if you're already home then don't even try to do this)
             short count = 0;
-            for (int i = 0;i<3;i++)
+            for (int i = 0; i < 3; i++)
             {
                 Manager manager = GetByID(managers[i].ManagerID);
                 if (manager != null)
@@ -67,7 +65,7 @@ namespace DALTests
         {
             Manager expected = managers[0];
             Manager actual = DAL.GetByID(managers[0].ManagerID);
-            Assert.AreEqual(expected,actual);
+            Assert.AreEqual(expected, actual);
         }
 
 
@@ -81,6 +79,7 @@ namespace DALTests
             DeleteManager(addedManager.ManagerID);
 
             Assert.AreEqual(addedManager, gotManager);
+         
         }
         [Test]
         public void UpdateTest()
@@ -93,8 +92,8 @@ namespace DALTests
 
             using (SqlCommand cmd = connection.CreateCommand())
             {
-                connection.Open();
                 cmd.CommandText = $"UPDATE tblManager SET firstName = 'newFN', lastName = 'newLN', userName = 'newUN', password = 'newPW', inventoryID = 0 WHERE managerID = {managers[1].ManagerID}";
+                connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
             }
@@ -121,11 +120,11 @@ namespace DALTests
         }
         public Manager AddManagerToDBPlusReturn(short number)
         {
+            connection.Open();
             using (SqlCommand cmd = connection.CreateCommand())
             {
-                connection.Open();
                 cmd.CommandText = $"INSERT INTO tblManager (firstName, lastName, userName, password, inventoryID) OUTPUT INSERTED.managerID VALUES ('fN{number}', 'lN{number}', 'uN{number}', 'pw{number}', {number})";
-                int id =  (int)cmd.ExecuteScalar();
+                int id = (int)cmd.ExecuteScalar();
                 connection.Close();
                 return new Manager
                 {
@@ -151,17 +150,17 @@ namespace DALTests
         }
 
 
-        
+
         public Manager GetByID(short id)
         {
             using (SqlCommand cmd = connection.CreateCommand())
             {
                 cmd.CommandText = $"SELECT * FROM tblManager WHERE managerID = {id}";
                 connection.Open();
-                SqlDataReader reader =  cmd.ExecuteReader();
+                SqlDataReader reader = cmd.ExecuteReader();
 
 
-                if(reader.Read())
+                if (reader.Read())
                 {
                     var manager = new Manager
                     {
