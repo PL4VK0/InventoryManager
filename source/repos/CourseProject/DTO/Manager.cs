@@ -9,7 +9,14 @@ namespace DTO
         private string lastName;
         private string userName;
         private string password;
-
+        private DateTime salt;
+        
+        public DateTime Salt
+        {
+            get { return salt; }
+            set { salt = value; }
+        }
+          
         public short ManagerID
         {
             get { return managerID; }
@@ -53,7 +60,8 @@ namespace DTO
                    other.LastName == lastName&&
                    other.UserName == userName&&
                    other.Password == password&&
-                   other.ManagerID==managerID;
+                   other.ManagerID==managerID&&
+                   other.Salt==salt;
         }
     }
 }

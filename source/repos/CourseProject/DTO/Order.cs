@@ -4,9 +4,9 @@
     {
         private short orderID;
         private short managerID;
-        private DateTime date = DateTime.UtcNow;
         private short wareID;
         private short count;
+        private DateTime date = DateTime.UtcNow;
         public short WareID
         {
             get { return wareID; }

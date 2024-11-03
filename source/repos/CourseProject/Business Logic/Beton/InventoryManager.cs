@@ -9,12 +9,12 @@ namespace Business_Logic.Beton
         private readonly ManagerDAL managerDAL;
         private readonly OrderDAL orderDAL;
         private readonly WareDAL wareDAL;
-        private readonly WareInventoryDAL inventoryDAL;
-        public InventoryManager(ManagerDAL managerDAL,OrderDAL orderDAL, WareDAL wareDAL, WareInventoryDAL inventoryDAL)
+        private readonly WareInventoryDAL wareInventoryDAL;
+        public InventoryManager(ManagerDAL managerDAL,OrderDAL orderDAL, WareDAL wareDAL, WareInventoryDAL wareInventoryDAL)
         {
             this.orderDAL = orderDAL;
             this.wareDAL = wareDAL;
-            this.inventoryDAL = inventoryDAL;
+            this.wareInventoryDAL = wareInventoryDAL;
             this.managerDAL= managerDAL;
         }
         public List<Ware> GetAllWares()
@@ -34,17 +34,44 @@ namespace Business_Logic.Beton
         {
             return orderDAL.GetAll();
         }
-        public void DiscardOrder(Order order)
+        public bool DiscardOrder(Order order)
         {
-            orderDAL.DeleteByID(order.OrderID);
+            try
+            {
+                orderDAL.DeleteByID(order.OrderID);
+                return true;
+            }catch
+            {
+                return false;
+            }
         }
-        public void ReceiveOrder(Order order)
+        public bool ReceiveOrder(Order order)
         {
-            
+            WareInventory itemToUpdate = new WareInventory
+            {
+                WareID = order.WareID,
+                Count = order.Count
+            };
+            try
+            {
+                wareInventoryDAL.Update(itemToUpdate);
+                DiscardOrder(order);
+                return true;
+            }catch
+            {
+                return false;
+            }
         }
-        public void UpdateOrder(Order order)
+        public bool UpdateOrder(Order order)
         {
-
+            try
+            {
+                orderDAL.Update(order);
+                return true;
+            }catch
+            {
+                return false;
+            }
         }
     }
 }

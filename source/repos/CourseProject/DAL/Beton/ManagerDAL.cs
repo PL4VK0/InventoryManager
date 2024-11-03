@@ -1,5 +1,6 @@
 ﻿using DAL.Abstract;
 using DTO;
+using Services;
 using System.Data.SqlClient;
 
 namespace DAL.Beton
@@ -13,17 +14,20 @@ namespace DAL.Beton
 
         public Manager Add(Manager manager)
         {
+            Byte[] password = HashOperations.GetHash(manager.Password + manager.Salt);
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "INSERT INTO tblManager (firstName,lastName,userName,password) output inserted.managerID VALUES (@firstName,@lastName,@userName,@password)";
+                cmd.CommandText = "INSERT INTO tblManager (firstName,lastName,userName,password,salt) output inserted.managerID VALUES (@firstName,@lastName,@userName,@password,@salt)";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("firstName", manager.FirstName);
                 cmd.Parameters.AddWithValue("lastName", manager.LastName);
                 cmd.Parameters.AddWithValue("userName", manager.UserName);
-                cmd.Parameters.AddWithValue("password", manager.Password);
+                cmd.Parameters.AddWithValue("password", password);
+                cmd.Parameters.AddWithValue("salt", manager.Salt);
                 _connection.Open();
                 manager.ManagerID = Convert.ToInt16(cmd.ExecuteScalar());
                 _connection.Close();
+                manager.Password = password.ToString();
                 return manager;
             }
         }
@@ -95,6 +99,40 @@ namespace DAL.Beton
                 }
                 _connection.Close ();
                 return null;
+            }
+        }
+
+        public string GetPassword(Manager manager)
+        {
+            using (SqlCommand cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT * FROM tblManager WHERE managerID=@managerID";
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("managerID", manager.ManagerID);
+                _connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                string password = "";
+                if (reader.Read())
+                    password = BitConverter.ToString(reader["password"] as Byte[]).Replace("-","");
+                _connection.Close();
+                return password;
+            }
+        }
+
+        public string GetSalt(Manager manager)
+        {
+            using (SqlCommand cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT * FROM tblManager WHERE managerID=@managerID";
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("managerID", manager.ManagerID);
+                _connection.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                string salt = "";
+                if(reader.Read())
+                    salt = Convert.ToDateTime(reader["salt"]).ToString();
+                _connection.Close();
+                return salt;
             }
         }
 

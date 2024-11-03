@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using Business_Logic.Abstract;
+using System.Windows;
+using System.Windows.Controls;
 using WPF.MVVM;
 
 namespace WPF
@@ -8,16 +10,21 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        IInventoryManager inventoryManager;
+        IAuthenticationService authenticationService;
+        public MainWindow(IInventoryManager inventoryManager,IAuthenticationService authenticationService)
         {
+            this.inventoryManager = inventoryManager;
+            this.authenticationService = authenticationService;
             InitializeComponent();
-            var viewModel = new AuthenticationViewModel();
+            var viewModel = new AuthenticationViewModel(authenticationService);
             DataContext = viewModel;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void txtBoxPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
-
+            if (DataContext is AuthenticationViewModel viewModel)
+                viewModel.Password = txtBoxPassword.Password;
         }
     }
 }

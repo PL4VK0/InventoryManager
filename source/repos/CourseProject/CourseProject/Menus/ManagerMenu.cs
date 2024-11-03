@@ -62,7 +62,6 @@ namespace CourseProject.Menus
             Console.WriteLine("Enter newPassword: ");
             password = Console.ReadLine();
             Console.WriteLine("Enter newInventoryID: ");
-            inventoryID = Convert.ToInt16(Console.ReadLine());
 
             Manager manager = new Manager
             {
@@ -71,7 +70,6 @@ namespace CourseProject.Menus
                 LastName = lastName,
                 UserName = userName,
                 Password = password,
-                InventoryID = inventoryID
             };
             mDAL.Update(manager);
 
@@ -116,7 +114,6 @@ namespace CourseProject.Menus
             string lastName;
             string userName;
             string password;
-            short inventoryID;
 
 
             Console.WriteLine("Enter firstName: ");
@@ -128,7 +125,6 @@ namespace CourseProject.Menus
             Console.WriteLine("Enter password: ");
             password = Console.ReadLine();
             Console.WriteLine("Enter inventoryID: ");
-            inventoryID = Convert.ToInt16(Console.ReadLine());
 
             Manager manager = new Manager
             {
@@ -136,9 +132,11 @@ namespace CourseProject.Menus
                 LastName = lastName,
                 UserName = userName,
                 Password = password,
-                InventoryID = inventoryID
+                Salt=DateTime.Now.AddSeconds(-DateTime.Now.Second)
             };
+            Console.WriteLine("The salt for this manager is "+ manager.Salt.ToString());
             Manager newManager = mDAL.Add(manager);
+            Console.WriteLine("The hashpassword for this manager is " + newManager.Password);
 
             Console.WriteLine($"Added\n{newManager}");
         }

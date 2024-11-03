@@ -9,8 +9,8 @@ namespace Business_Logic.Abstract
         Order PlaceOrder(Order order);
 
         List<Order> GetAllOrders();
-        void DiscardOrder(Order order);
-        void ReceiveOrder(Order order);
-        public void UpdateOrder(Order order);
+        bool DiscardOrder(Order order);
+        bool ReceiveOrder(Order order);
+        public bool UpdateOrder(Order order);
     }
 }

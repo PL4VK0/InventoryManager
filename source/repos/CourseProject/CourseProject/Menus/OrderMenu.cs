@@ -65,7 +65,6 @@ namespace CourseProject.Menus
             {
                 OrderID = id,
                 ManagerID = managerID,
-                InventoryID = inventoryID
             };
             ordDAL.Update(updatedOrder);
             Console.WriteLine($"Updated to\n{updatedOrder}");
@@ -116,7 +115,6 @@ namespace CourseProject.Menus
             var order = new Order
             {
                 ManagerID = managerID,
-                InventoryID = inventoryID
             };
             var newOrder = ordDAL.Add(order);
             Console.WriteLine($"Added\n{newOrder}");

@@ -5,27 +5,72 @@ namespace WPF.MVVM
     public class RelayCommand : ICommand
     {
         private Action<object> execute;
-        private Func<object,bool> canExecute;
-        public event EventHandler? CanExecuteChanged
-        {
-            remove {  CommandManager.RequerySuggested -= value;}
-            add { CommandManager.RequerySuggested += value; }
-        }
 
+        private Predicate<object> canExecute;
 
-        public RelayCommand(Action<object> execute, Func<object,bool> canExecute=null)
+        private event EventHandler CanExecuteChangedInternal;
+
+        public RelayCommand(Action<object> execute) : this(execute, DefaultCanExecute) { }
+
+        public RelayCommand(Action<object> execute, Predicate<object> canExecute)
         {
+            if (execute == null)
+            {
+                throw new ArgumentNullException("execute");
+            }
+
+            if (canExecute == null)
+            {
+                throw new ArgumentNullException("canExecute");
+            }
+
             this.execute = execute;
             this.canExecute = canExecute;
         }
-        public bool CanExecute(object? parameter)
+
+        public event EventHandler CanExecuteChanged
         {
-            return canExecute==null||canExecute(parameter);
+            add
+            {
+                CommandManager.RequerySuggested += value;
+                this.CanExecuteChangedInternal += value;
+            }
+
+            remove
+            {
+                CommandManager.RequerySuggested -= value;
+                this.CanExecuteChangedInternal -= value;
+            }
         }
 
-        public void Execute(object? parameter)
+        public bool CanExecute(object parameter)
         {
-            execute(parameter);
+            return this.canExecute != null && this.canExecute(parameter);
+        }
+
+        public void Execute(object parameter)
+        {
+            this.execute(parameter);
+        }
+
+        public void OnCanExecuteChanged()
+        {
+            EventHandler handler = this.CanExecuteChangedInternal;
+            if (handler != null)
+            {
+                handler.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public void Destroy()
+        {
+            this.canExecute = _ => false;
+            this.execute = _ => { return; };
+        }
+
+        private static bool DefaultCanExecute(object parameter)
+        {
+            return true;
         }
     }
 }

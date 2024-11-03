@@ -14,10 +14,12 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "INSERT INTO tblOrder (inventoryID, managerID) output inserted.orderID VALUES (@inventoryID, @managerID)";
+                cmd.CommandText = "INSERT INTO tblOrder (managerID, wareID, count, date) output inserted.orderID VALUES (@managerID, @wareID, @count, @date)";
                 cmd.Parameters.Clear();
-                cmd.Parameters.AddWithValue("inventoryID", order.InventoryID);
                 cmd.Parameters.AddWithValue("managerID", order.ManagerID);
+                cmd.Parameters.AddWithValue("wareID", order.WareID);
+                cmd.Parameters.AddWithValue("count", order.Count);
+                cmd.Parameters.AddWithValue("date", order.Date);
                 _connection.Open();
                 order.OrderID = Convert.ToInt16(cmd.ExecuteScalar());
                 _connection.Close();
@@ -45,7 +47,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT orderID, managerID, inventoryID FROM tblOrder";
+                cmd.CommandText = "SELECT orderID, managerID, wareID, count, date FROM tblOrder";
 
                 _connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -55,8 +57,10 @@ namespace DAL.Beton
                     orders.Add(new Order
                     {
                         OrderID = Convert.ToInt16(reader["orderID"]),
-                        InventoryID = Convert.ToInt16(reader["inventoryID"]),
-                        ManagerID = Convert.ToInt16(reader["managerID"])
+                        ManagerID = Convert.ToInt16(reader["managerID"]),
+                        WareID = Convert.ToInt16(reader["wareID"]),
+                        Count = Convert.ToInt16(reader["count"]),
+                        Date = Convert.ToDateTime(reader["date"])
                     });
                 }
                 _connection.Close();
@@ -68,7 +72,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT orderID, managerID,inventoryID FROM tblOrder WHERE orderID = @orderID";
+                cmd.CommandText = "SELECT orderID, managerID, wareID, count, date FROM tblOrder WHERE orderID = @orderID";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("orderID", id);
 
@@ -81,7 +85,9 @@ namespace DAL.Beton
                     {
                         OrderID = Convert.ToInt16(reader["orderID"]),
                         ManagerID = Convert.ToInt16(reader["managerID"]),
-                        InventoryID = Convert.ToInt16(reader["inventoryID"])
+                        WareID = Convert.ToInt16(reader["wareID"]),
+                        Count = Convert.ToInt16(reader["count"]),
+                        Date = Convert.ToDateTime(reader["date"])
                     };
                 return null;
             }
@@ -89,7 +95,17 @@ namespace DAL.Beton
 
         public void Update(Order order)
         {
-            throw new NotImplementedException();
+            using (SqlCommand cmd = _connection.CreateCommand())
+            {
+                cmd.CommandText = "UPDATE tblOrder SET orderID = @orderID, managerID = @managerID, wareID = @wareID, count = @count, date = @date WHERE orderID = @orderID";
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("orderID",order.OrderID);
+                cmd.Parameters.AddWithValue("managerID", order.ManagerID);
+                cmd.Parameters.AddWithValue("wareID", order.WareID);
+                cmd.Parameters.AddWithValue("count",order.Count);
+                cmd.Parameters.AddWithValue("date",order.Date);
+            }
+            return;
         }
     }
 }

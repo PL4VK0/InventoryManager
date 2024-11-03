@@ -88,11 +88,10 @@ namespace DALTests
             string newLN = "newLN";
             string newUN = "newUN";
             string newPW = "newPW";
-            short newInvID = 0;
 
             using (SqlCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = $"UPDATE tblManager SET firstName = 'newFN', lastName = 'newLN', userName = 'newUN', password = 'newPW', inventoryID = 0 WHERE managerID = {managers[1].ManagerID}";
+                cmd.CommandText = $"UPDATE tblManager SET firstName = 'newFN', lastName = 'newLN', userName = 'newUN', password = 'newPW', WHERE managerID = {managers[1].ManagerID}";
                 connection.Open();
                 cmd.ExecuteNonQuery();
                 connection.Close();
@@ -104,7 +103,6 @@ namespace DALTests
                 LastName = newLN,
                 UserName = newUN,
                 Password = newPW,
-                InventoryID = newInvID
             };
 
             Assert.AreEqual(DAL.GetByID(managers[1].ManagerID), updatedManger);
@@ -123,7 +121,7 @@ namespace DALTests
             connection.Open();
             using (SqlCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = $"INSERT INTO tblManager (firstName, lastName, userName, password, inventoryID) OUTPUT INSERTED.managerID VALUES ('fN{number}', 'lN{number}', 'uN{number}', 'pw{number}', {number})";
+                cmd.CommandText = $"INSERT INTO tblManager (firstName, lastName, userName, password) OUTPUT INSERTED.managerID VALUES ('fN{number}', 'lN{number}', 'uN{number}', 'pw{number}')";
                 int id = (int)cmd.ExecuteScalar();
                 connection.Close();
                 return new Manager
@@ -133,7 +131,6 @@ namespace DALTests
                     LastName = $"lN{number}",
                     UserName = $"uN{number}",
                     Password = $"pw{number}",
-                    InventoryID = number
                 };
             }
         }
@@ -168,8 +165,7 @@ namespace DALTests
                         FirstName = reader.GetString(0),
                         LastName = reader.GetString(1),
                         UserName = reader.GetString(2),
-                        Password = reader.GetString(3),
-                        InventoryID = reader.GetInt16(4)
+                        Password = reader.GetString(3)
                     };
                     connection.Close();
                     return manager;

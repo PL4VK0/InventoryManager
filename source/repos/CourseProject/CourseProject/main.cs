@@ -7,7 +7,6 @@ IConfiguration config = new ConfigurationBuilder().SetBasePath(Directory.GetCurr
 
 
 string connectionString = config.GetConnectionString("InventoryManager");
-CityMenu cityMenu = new CityMenu(connectionString);
 InventoryMenu invMenu = new InventoryMenu(connectionString);
 OrderMenu ordMenu = new OrderMenu(connectionString);
 ManagerMenu managerMenu = new ManagerMenu(connectionString);
@@ -40,9 +39,6 @@ do
             break;
         case '4':
             invMenu.Show();
-            break;
-        case '5':
-            cityMenu.Show();
             break;
     }
 }
