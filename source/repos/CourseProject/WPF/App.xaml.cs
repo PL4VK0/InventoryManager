@@ -28,20 +28,8 @@ namespace WPF
             WareDAL wareDAL = new WareDAL(connectionString);
             OrderDAL orderDAL = new OrderDAL(connectionString);
             WareInventoryDAL wareInventoryDAL = new WareInventoryDAL(connectionString);
-            IInventoryManager inventoryManager = new InventoryManager(managerDAL,orderDAL,wareDAL,wareInventoryDAL);
+            InventoryManager inventoryManager = new InventoryManager(managerDAL,orderDAL,wareDAL,wareInventoryDAL);
             IAuthenticationService authenticationService = new AuthenticationService(managerDAL);
-            //var serviceCollection = new ServiceCollection();
-            //serviceCollection.AddSingleton<string>(connectionString);
-            //serviceCollection.AddTransient<ManagerDAL>();
-            //serviceCollection.AddTransient<OrderDAL>();
-            //serviceCollection.AddTransient<WareDAL>();
-            //serviceCollection.AddTransient<WareInventoryDAL>();
-
-
-            //serviceCollection.AddTransient<IInventoryManager, InventoryManager>();
-
-            //serviceProvider = serviceCollection.BuildServiceProvider();
-
             var startFenetre = new MainWindow(inventoryManager, authenticationService);
             startFenetre.Show();
 

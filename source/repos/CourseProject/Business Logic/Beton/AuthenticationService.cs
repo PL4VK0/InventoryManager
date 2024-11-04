@@ -12,19 +12,19 @@ namespace Business_Logic.Beton
         {
             this.managerDAL = managerDAL;
         }
-        public bool Authentication(string UserName,string Password)
+        public Manager? Authentication(string UserName,string Password)
         {
             List<Manager> managers = managerDAL.GetAll();
             Manager? toAuthenticate = managers.Find(m => m.UserName == UserName);
             if (toAuthenticate == null)
-                return false;
+                return null;
             string saltedPassword = Password+managerDAL.GetSalt(toAuthenticate);
             string hashedPasswordToCheck = HashOperations.GetHashString(saltedPassword);
-            string actualPassword = managerDAL.GetPassword(toAuthenticate);
+            string actualPassword = toAuthenticate.Password;
             
             if(hashedPasswordToCheck != actualPassword) 
-                return false;
-            return true;
+                return null;
+            return toAuthenticate;
         }
     }
 }

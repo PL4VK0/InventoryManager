@@ -1,0 +1,36 @@
+﻿<Window x:Class="WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="clr-namespace:WPF.MVVM"
+        mc:Ignorable="d"
+        Title="Authentication (are you really our employee?)" Height="450" Width="800"
+        Style="{StaticResource AuthenticationWindow}"
+        DataContext="AuthenticationViewModel"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+        <!--d:DataContext="{d:DesignInstance Type=mvvm:AuthenticationViewModel}"-->
+    <Grid>
+        <!--<Button Name="btnLogin" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top" Style="{StaticResource LoginButton}" Command="{Binding LoginCommand}" IsEnabled="{Binding IsEnabled}"/>-->
+        <Button Style="{StaticResource LoginButton}" 
+                Margin="350,245,350,89" 
+                Command="{Binding LoginCommand}"/>
+        <TextBox Name="txtBoxUserName" 
+                 HorizontalAlignment="Center" 
+                 Margin="0,155,0,0"  
+                 VerticalAlignment="Top" 
+                 Width="120" 
+                 Text="{Binding UserName, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"/>
+        <PasswordBox HorizontalAlignment="Center" 
+                     Margin="0,199,0,0" 
+                     VerticalAlignment="Top" 
+                     Width="120" 
+                     PasswordChar="" 
+                     x:Name="txtBoxPassword" 
+                     PasswordChanged="txtBoxPassword_PasswordChanged"/>
+        <Label Content="UserName" HorizontalAlignment="Left" Margin="340,124,0,0" VerticalAlignment="Top"/>
+        <Label Content="Password" HorizontalAlignment="Left" Margin="340,173,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.146,0.271"/>
+        <!--<Button Content="Button" HorizontalAlignment="Left" Margin="551,272,0,0" VerticalAlignment="Top" Command="{Binding LoginCommand}"/>-->
+    </Grid>
+</Window>

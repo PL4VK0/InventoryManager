@@ -1,4 +1,6 @@
 ﻿using Business_Logic.Abstract;
+using Business_Logic.Beton;
+using DTO;
 using System.Windows;
 using System.Windows.Controls;
 using WPF.MVVM;
@@ -10,14 +12,14 @@ namespace WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        IInventoryManager inventoryManager;
+        InventoryManager inventoryManager;
         IAuthenticationService authenticationService;
-        public MainWindow(IInventoryManager inventoryManager,IAuthenticationService authenticationService)
+        public MainWindow(InventoryManager inventoryManager,IAuthenticationService authenticationService)
         {
             this.inventoryManager = inventoryManager;
             this.authenticationService = authenticationService;
             InitializeComponent();
-            var viewModel = new AuthenticationViewModel(authenticationService);
+            var viewModel = new AuthenticationViewModel(authenticationService,inventoryManager, OpenInvManMenu,ClearPasswordBox);
             DataContext = viewModel;
         }
 
@@ -25,6 +27,16 @@ namespace WPF
         {
             if (DataContext is AuthenticationViewModel viewModel)
                 viewModel.Password = txtBoxPassword.Password;
+        }
+        private void OpenInvManMenu(InventoryManager invManager)
+        {
+            var invManMenu = new InventoryManagerMenu(invManager);
+            ClearPasswordBox();
+            invManMenu.ShowDialog();
+        }
+        private void ClearPasswordBox()
+        {
+            txtBoxPassword.Clear();
         }
     }
 }

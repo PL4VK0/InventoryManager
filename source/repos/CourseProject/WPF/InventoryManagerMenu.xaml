@@ -1,0 +1,29 @@
+﻿<Window x:Class="WPF.InventoryManagerMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF"
+        mc:Ignorable="d"
+        Title="Inventory Manager Menu" Height="450" Width="800"
+        Style="{StaticResource MainMenuWindow}"
+        DataContext="InventoryManagerMenuViewModel"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="CanMinimize">
+    <Grid>
+        <Button Style="{StaticResource InventoryMenuButton}" 
+                HorizontalAlignment="Center" 
+                Margin="0,178,0,0" 
+                VerticalAlignment="Top" 
+                Height="39" Width="210"
+                Command="{Binding InventoryMenuCommand}"/>
+        
+        <Button Style="{StaticResource OrderMenuButton}" 
+                HorizontalAlignment="Center" 
+                Margin="0,222,0,0" 
+                VerticalAlignment="Top" 
+                Height="39" Width="210"
+                Command="{Binding OrderMenuCommand}"/>
+
+    </Grid>
+</Window>

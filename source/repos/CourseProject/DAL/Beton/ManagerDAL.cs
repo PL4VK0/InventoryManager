@@ -65,7 +65,7 @@ namespace DAL.Beton
                         FirstName = reader["firstName"].ToString(),
                         LastName = reader["lastName"].ToString(),
                         UserName = reader["userName"].ToString(),
-                        Password = reader["password"].ToString()
+                        Password = BitConverter.ToString(reader["password"] as Byte[]).Replace("-", "")
                     });
                 }
                 _connection.Close();
@@ -92,7 +92,7 @@ namespace DAL.Beton
                         FirstName = reader["firstName"].ToString(),
                         LastName = reader["lastName"].ToString(),
                         UserName = reader["userName"].ToString(),
-                        Password = reader["password"].ToString()
+                        Password = BitConverter.ToString(reader["password"] as Byte[]).Replace("-", "")
                     };
                     _connection.Close();
                     return manager;

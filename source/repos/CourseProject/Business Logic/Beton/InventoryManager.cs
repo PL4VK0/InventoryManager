@@ -10,6 +10,7 @@ namespace Business_Logic.Beton
         private readonly OrderDAL orderDAL;
         private readonly WareDAL wareDAL;
         private readonly WareInventoryDAL wareInventoryDAL;
+        public Manager? CurrentManager { get; set; } = null;
         public InventoryManager(ManagerDAL managerDAL,OrderDAL orderDAL, WareDAL wareDAL, WareInventoryDAL wareInventoryDAL)
         {
             this.orderDAL = orderDAL;

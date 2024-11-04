@@ -1,4 +1,5 @@
 ﻿using Business_Logic.Abstract;
+using Business_Logic.Beton;
 using DTO;
 using System.ComponentModel;
 using System.Windows;
@@ -9,10 +10,19 @@ namespace WPF.MVVM
     public class AuthenticationViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         IAuthenticationService _authenticationService;
-        public AuthenticationViewModel(IAuthenticationService authenticationService)
+        Action<InventoryManager> _openInvManMenu;
+        InventoryManager _inventoryManager;
+        Action _clearPasswordBox;
+        public AuthenticationViewModel(IAuthenticationService authenticationService, 
+                                       InventoryManager inventoryManager,
+                                       Action<InventoryManager> openInvManMenu,
+                                       Action clearPasswordBox)
         {
             LoginCommand = new RelayCommand(Login, param => string.IsNullOrEmpty(Error));
             _authenticationService = authenticationService;
+            _openInvManMenu = openInvManMenu;
+            _inventoryManager = inventoryManager;
+            _clearPasswordBox = clearPasswordBox;
         }
         private string password = string.Empty;
         private string userName = string.Empty;
@@ -67,12 +77,20 @@ namespace WPF.MVVM
         private void Login(object qch)
         {
             if(!LoginCommand.CanExecute(qch)) return;
-            if (!_authenticationService.Authentication(UserName, Password))
+            Manager? manager = _authenticationService.Authentication(UserName, Password);
+            if (manager==null)
             {
+                //MessageBox.Show(Password, "passowrd");
                 MessageBox.Show("WROGN PASSOWRD OR USERNAMEW!","EOERR!",MessageBoxButton.YesNo,MessageBoxImage.Question);
+                _clearPasswordBox.Invoke();
                 return;
             }
+            UserName = string.Empty;
+            //MessageBox.Show(Password, "passowrd");
+            //Password = string.Empty;
             MessageBox.Show("YES!");
+            _inventoryManager.CurrentManager = manager;
+            _openInvManMenu.Invoke(_inventoryManager);
         }
     }
 }

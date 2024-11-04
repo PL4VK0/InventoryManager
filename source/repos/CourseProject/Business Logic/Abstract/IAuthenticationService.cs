@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DTO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace Business_Logic.Abstract
 {
     public interface IAuthenticationService
     {
-        bool Authentication(string username, string password);
+        Manager? Authentication(string username, string password);
     }
 }
