@@ -8,6 +8,71 @@
         Title="Order Menu" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <ListView ItemsSource="{Binding Orders}" 
+                  Margin="0,44,256,0" 
+                  SelectedItem="{Binding SelectedTblOrder,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="WareID" DisplayMemberBinding="{Binding WareID}" Width="50"/>
+                    <GridViewColumn Header="WareName" DisplayMemberBinding="{Binding WareName}" Width="150"/>
+                    <GridViewColumn Header="ManagerUserName" DisplayMemberBinding="{Binding ManagerUserName}" Width="150"/>
+                    <GridViewColumn Header="Count" DisplayMemberBinding="{Binding Count}" Width="50"/>
+                    <GridViewColumn Header="ModifiedDate" DisplayMemberBinding="{Binding Date}" Width="140"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="Orders" 
+               Style="{StaticResource StandartLabel}"
+               HorizontalAlignment="Left" 
+               Margin="10,11,0,0" 
+               VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" 
+                 Margin="610,162,0,0" 
+                 TextWrapping="Wrap" 
+                 Text="{Binding Count,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
+                 VerticalAlignment="Top" 
+                 Width="120"/>
+        <Label Content="Ware Info" 
+               Style="{StaticResource StandartLabel}"
+               HorizontalAlignment="Left" 
+               Margin="610,83,0,0" 
+               VerticalAlignment="Top"/>
+        <Label Content="Count" 
+               Style="{StaticResource StandartLabel}"
+               HorizontalAlignment="Left" 
+               Margin="610,136,0,0" 
+               VerticalAlignment="Top"/>
+        <ComboBox HorizontalAlignment="Left" 
+                  ItemsSource="{Binding Wares}"
+                  SelectedItem="{Binding SelectedWare,Mode=TwoWay}"
+                  Margin="610,111,0,0" 
+                  VerticalAlignment="Top" 
+                  Width="120"/>
+        <Button Content="Discard Selected"
+                Command="{Binding DiscardSelectedOrder}"
+                Style="{StaticResource StandartButton}"
+                HorizontalAlignment="Left" 
+                Margin="614,394,0,0" 
+                VerticalAlignment="Top" Height="30" Width="116"/>
+        <Button Content="Update Selected"
+                Style="{StaticResource StandartButton}"
+                Command="{Binding UpdateSelectedOrder}"
+                HorizontalAlignment="Left" 
+                Margin="610,194,0,0" 
+                VerticalAlignment="Top" Height="36" Width="120"/>
+        <!--<ComboBox Margin="582,111,98,304" ItemsSource="{Binding Wares}" SelectedItem="{Binding SelectedWare}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding StringFormat="{}{0}: {1}">
+                                <Binding Path="WareName"/>
+                                <Binding Path="Cost"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>-->
     </Grid>
 </Window>

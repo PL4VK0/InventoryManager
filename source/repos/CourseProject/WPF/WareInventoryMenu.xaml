@@ -5,9 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="WareInventoryMenu" Height="450" Width="800"
+        Title="Wares and Inventory status" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        
+        <ListView ItemsSource="{Binding Wares}" Margin="0,34,400,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding WareName}" Width="250"/>
+                    <GridViewColumn Header="Cost ₿" DisplayMemberBinding="{Binding Cost}" Width="145"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView ItemsSource="{Binding WareInventory}" Margin="500,36,0,0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Ware" DisplayMemberBinding="{Binding WareName}" Width="200"/>
+                    <GridViewColumn Header="Count" DisplayMemberBinding="{Binding Count}" Width="100"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label Content="All Wares"
+               Style="{StaticResource StandartLabel}"
+               HorizontalAlignment="Left" 
+               Margin="10,8,0,0" 
+               VerticalAlignment="Top"/>
+        <Label Content="Inventory Status" 
+               Style="{StaticResource StandartLabel}"
+               HorizontalAlignment="Left" 
+               Margin="500,10,0,0" 
+               VerticalAlignment="Top"/>
     </Grid>
 </Window>

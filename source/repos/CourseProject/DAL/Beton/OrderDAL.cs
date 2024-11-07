@@ -89,6 +89,7 @@ namespace DAL.Beton
                         Count = Convert.ToInt16(reader["count"]),
                         Date = Convert.ToDateTime(reader["date"])
                     };
+                _connection.Close();
                 return null;
             }
         }
@@ -97,13 +98,16 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "UPDATE tblOrder SET orderID = @orderID, managerID = @managerID, wareID = @wareID, count = @count, date = @date WHERE orderID = @orderID";
+                cmd.CommandText = "UPDATE tblOrder SET managerID = @managerID, wareID = @wareID, count = @count, date = @date WHERE orderID = @orderID";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("orderID",order.OrderID);
                 cmd.Parameters.AddWithValue("managerID", order.ManagerID);
                 cmd.Parameters.AddWithValue("wareID", order.WareID);
                 cmd.Parameters.AddWithValue("count",order.Count);
                 cmd.Parameters.AddWithValue("date",order.Date);
+                _connection.Open();
+                cmd.ExecuteNonQuery();
+                _connection.Close();
             }
             return;
         }

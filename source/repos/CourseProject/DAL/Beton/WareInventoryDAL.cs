@@ -14,9 +14,10 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "INSERT INTO tblWareInventory (wareID,count) VALUES (@wareID,@count)";
+                cmd.CommandText = "INSERT INTO tblWareInventory (wareID,wareName,count) VALUES (@wareID,@wareName,@count)";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("wareID", wareInventory.WareID);
+                cmd.Parameters.AddWithValue("wareName",wareInventory.WareName);
                 cmd.Parameters.AddWithValue("count", wareInventory.Count);
                 _connection.Open();
                 cmd.ExecuteNonQuery();
@@ -45,7 +46,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT wareID, count FROM tblInventory";
+                cmd.CommandText = "SELECT wareID,wareName,count FROM tblInventory";
 
                 _connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -55,6 +56,7 @@ namespace DAL.Beton
                     wareInventories.Add(new WareInventory
                     {
                         WareID = Convert.ToInt16(reader["wareID"]),
+                        WareName = reader["wareName"].ToString(),
                         Count = Convert.ToInt16(reader["count"])
                     });
                 }
@@ -67,7 +69,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "SELECT wareID, count FROM tblInventory WHERE wareID = @wareID";
+                cmd.CommandText = "SELECT wareID,wareName,count FROM tblInventory WHERE wareID = @wareID";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("wareID", id);
 
@@ -79,6 +81,7 @@ namespace DAL.Beton
                     return new WareInventory
                     {
                         WareID = Convert.ToInt16(reader["wareID"]),
+                        WareName= reader["wareName"].ToString(),
                         Count = Convert.ToInt16(reader["wareDescription"].ToString())
                     };
                 return null;

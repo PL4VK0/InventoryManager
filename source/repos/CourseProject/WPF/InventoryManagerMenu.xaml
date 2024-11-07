@@ -11,19 +11,21 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
     <Grid>
-        <Button Style="{StaticResource InventoryMenuButton}" 
+        <Button Style="{StaticResource StandartButton}" 
                 HorizontalAlignment="Center" 
                 Margin="0,178,0,0" 
                 VerticalAlignment="Top" 
                 Height="39" Width="210"
-                Command="{Binding InventoryMenuCommand}"/>
-        
-        <Button Style="{StaticResource OrderMenuButton}" 
+                Command="{Binding InventoryMenuCommand}"
+                Content="Inventory Menu"/>
+
+        <Button Style="{StaticResource StandartButton}" 
                 HorizontalAlignment="Center" 
                 Margin="0,222,0,0" 
                 VerticalAlignment="Top" 
                 Height="39" Width="210"
-                Command="{Binding OrderMenuCommand}"/>
+                Command="{Binding OrderMenuCommand}"
+                Content="Order Menu"/>
 
     </Grid>
 </Window>

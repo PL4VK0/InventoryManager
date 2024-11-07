@@ -13,9 +13,10 @@
         <!--d:DataContext="{d:DesignInstance Type=mvvm:AuthenticationViewModel}"-->
     <Grid>
         <!--<Button Name="btnLogin" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top" Style="{StaticResource LoginButton}" Command="{Binding LoginCommand}" IsEnabled="{Binding IsEnabled}"/>-->
-        <Button Style="{StaticResource LoginButton}" 
+        <Button Style="{StaticResource StandartButton}" 
                 Margin="350,245,350,89" 
-                Command="{Binding LoginCommand}"/>
+                Command="{Binding LoginCommand}"
+                Content="Log In"/>
         <TextBox Name="txtBoxUserName" 
                  HorizontalAlignment="Center" 
                  Margin="0,155,0,0"  

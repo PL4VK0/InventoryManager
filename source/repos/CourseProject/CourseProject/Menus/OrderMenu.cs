@@ -53,18 +53,26 @@ namespace CourseProject.Menus
             id = Convert.ToInt16(Console.ReadLine());
 
             short managerID;
-            short inventoryID;
+            short wareID;
+            short count;
 
             Console.WriteLine("Enter new managerID: ");
             managerID = Convert.ToInt16(Console.ReadLine());
 
-            Console.WriteLine("Enter new inventoryID: ");
-            inventoryID = Convert.ToInt16(Console.ReadLine());
+            Console.WriteLine("Enter new wareID: ");
+            wareID = Convert.ToInt16(Console.ReadLine());
+            
+            Console.WriteLine("Enter new count: ");
+            count = Convert.ToInt16(Console.ReadLine());
+
 
             Order updatedOrder = new Order
             {
                 OrderID = id,
                 ManagerID = managerID,
+                Count = count,
+                WareID = wareID,
+                Date = DateTime.Now
             };
             ordDAL.Update(updatedOrder);
             Console.WriteLine($"Updated to\n{updatedOrder}");
@@ -105,16 +113,22 @@ namespace CourseProject.Menus
         void AddOrder()
         {
             short managerID;
-            short inventoryID;
+            short count;
+            short wareID;
 
             Console.WriteLine("Enter managerID that is making the order: ");
             managerID = Convert.ToInt16(Console.ReadLine());
-            Console.WriteLine("Enter invenotryID where the order is going: ");
-            inventoryID = Convert.ToInt16(Console.ReadLine());
+            Console.WriteLine("Enter wareID: ");
+            wareID = Convert.ToInt16(Console.ReadLine());
+            Console.WriteLine("Enter count: ");
+            count = Convert.ToInt16(Console.ReadLine());
 
             var order = new Order
             {
                 ManagerID = managerID,
+                Count = count,
+                Date = DateTime.Now,
+                WareID = wareID
             };
             var newOrder = ordDAL.Add(order);
             Console.WriteLine($"Added\n{newOrder}");

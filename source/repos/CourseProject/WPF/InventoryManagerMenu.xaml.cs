@@ -23,20 +23,22 @@ namespace WPF
     /// </summary>
     public partial class InventoryManagerMenu : Window
     {
+        InventoryManager _invManager;
         public InventoryManagerMenu(InventoryManager invManager)
         {
             InitializeComponent();
             var viewModel = new InventoryManagerMenuViewModel(invManager,OpenInvMenu,OpenOrderMenu);
+            _invManager = invManager;
             DataContext = viewModel;
         }
         private void OpenInvMenu(object qch)
         {
-            var invMenu = new WareInventoryMenu();
+            var invMenu = new WareInventoryMenu(_invManager);
             invMenu.Show();
         }
         private void OpenOrderMenu(object qch)
         {
-            var orderMenu = new OrderMenu();
+            var orderMenu = new OrderMenu(_invManager);
             orderMenu.Show();
         }
     }

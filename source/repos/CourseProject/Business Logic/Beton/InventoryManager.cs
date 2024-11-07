@@ -35,11 +35,11 @@ namespace Business_Logic.Beton
         {
             return orderDAL.GetAll();
         }
-        public bool DiscardOrder(Order order)
+        public bool DiscardOrderByID(short ID)
         {
             try
             {
-                orderDAL.DeleteByID(order.OrderID);
+                orderDAL.DeleteByID(ID);
                 return true;
             }catch
             {
@@ -56,7 +56,7 @@ namespace Business_Logic.Beton
             try
             {
                 wareInventoryDAL.Update(itemToUpdate);
-                DiscardOrder(order);
+                DiscardOrderByID(order.OrderID);
                 return true;
             }catch
             {
@@ -73,6 +73,15 @@ namespace Business_Logic.Beton
             {
                 return false;
             }
+        }
+
+        public IEnumerable<WareInventory> GetAllWareInventory()
+        {
+            return wareInventoryDAL.GetAll();
+        }
+        public List<Manager> GetAllManagers()
+        {
+            return managerDAL.GetAll();
         }
     }
 }

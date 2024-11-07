@@ -10,7 +10,7 @@ namespace Business_Logic.Abstract
         Order PlaceOrder(Order order);
 
         List<Order> GetAllOrders();
-        bool DiscardOrder(Order order);
+        bool DiscardOrderByID(short ID);
         bool ReceiveOrder(Order order);
         public bool UpdateOrder(Order order);
     }

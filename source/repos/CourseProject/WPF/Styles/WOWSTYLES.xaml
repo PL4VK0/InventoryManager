@@ -6,14 +6,27 @@
     <Style x:Key="MainMenuWindow" TargetType="Window">
         <Setter Property="Background" Value="BlanchedAlmond"/>
     </Style>
-    <Style x:Key="LoginButton" TargetType="Button">
+    <Style x:Key="StandartButton" TargetType="Button">
+        <Setter Property="Content" Value="Button"/>
+        <Setter Property="FontFamily" Value="Old London"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="100"/>
+        <Setter Property="Background" Value="Coral"/>
+        <Setter Property="BorderThickness" Value="3"/>
+    </Style>
+    <Style x:Key="StandartLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="Old London"/>
+        <Setter Property="FontSize" Value="16"/>
+    </Style>
+    <!--<Style x:Key="LoginButton" TargetType="Button">
         <Setter Property="Content" Value="Login"/>
         <Setter Property="FontFamily" Value="Old London"/>
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="100"/>
         <Setter Property="Background" Value="Coral"/>
-        <!--<Setter Property="IsEnabled" Value="False"/>-->
+        --><!--<Setter Property="IsEnabled" Value="False"/>--><!--
         <Setter Property="BorderThickness" Value="3"/>
     </Style>
     <Style x:Key="OrderMenuButton" TargetType="Button">
@@ -23,7 +36,7 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="100"/>
         <Setter Property="Background" Value="Salmon"/>
-        <!--<Setter Property="IsEnabled" Value="False"/>-->
+        --><!--<Setter Property="IsEnabled" Value="False"/>--><!--
         <Setter Property="BorderThickness" Value="3"/>
     </Style>
     <Style x:Key="InventoryMenuButton" TargetType="Button">
@@ -33,8 +46,8 @@
         <Setter Property="Width" Value="100"/>
         <Setter Property="Height" Value="100"/>
         <Setter Property="Background" Value="LightCoral"/>
-        <!--<Setter Property="IsEnabled" Value="False"/>-->
+        --><!--<Setter Property="IsEnabled" Value="False"/>--><!--
         <Setter Property="BorderThickness" Value="3"/>
-    </Style>
+    </Style>-->
 
 </ResourceDictionary>

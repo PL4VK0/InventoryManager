@@ -1,16 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Business_Logic.Beton;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using WPF.MVVM;
 
 namespace WPF
 {
@@ -19,9 +9,11 @@ namespace WPF
     /// </summary>
     public partial class WareInventoryMenu : Window
     {
-        public WareInventoryMenu()
+        public WareInventoryMenu(InventoryManager inventoryManager)
         {
             InitializeComponent();
+            var viewModel = new WareInventoryMenuViewModel(inventoryManager);
+            DataContext = viewModel;
         }
     }
 }
