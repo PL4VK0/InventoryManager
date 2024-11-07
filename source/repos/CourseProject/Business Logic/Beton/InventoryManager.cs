@@ -1,6 +1,7 @@
 ﻿using Business_Logic.Abstract;
 using DAL.Beton;
 using DTO;
+using WPF.ViewModels;
 
 namespace Business_Logic.Beton
 {
@@ -75,13 +76,33 @@ namespace Business_Logic.Beton
             }
         }
 
-        public IEnumerable<WareInventory> GetAllWareInventory()
+        public List<WareInventory> GetAllWareInventory()
         {
             return wareInventoryDAL.GetAll();
         }
         public List<Manager> GetAllManagers()
         {
             return managerDAL.GetAll();
+        }
+
+        public void CommitOrder(tblOrder tblOrder)
+        {
+            WareInventory inventoryItem = wareInventoryDAL.GetByID(tblOrder.WareID);
+            if (inventoryItem == null)
+                wareInventoryDAL.Add(new WareInventory
+                {
+                    WareID = tblOrder.WareID,
+                    Count = tblOrder.Count,
+                    WareName = tblOrder.WareName
+                });
+            else
+                wareInventoryDAL.Update(new WareInventory
+                {
+                    WareID = tblOrder.WareID,
+                    Count = Convert.ToInt16(tblOrder.Count + inventoryItem.Count),
+                    WareName = tblOrder.WareName
+                });
+            orderDAL.DeleteByID(tblOrder.OrderID);
         }
     }
 }

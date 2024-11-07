@@ -1,22 +1,17 @@
-using Business_Logic.Beton;
 using DAL.Beton;
 using DTO;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
 
-namespace DALTests
+namespace BusinessLogicTests
 {
-    public class ManagerDALTests
+    public class SomeTests
     {
-        private readonly ManagerDAL managerDAL;
-        private readonly OrderDAL orderDAL;
-        private readonly WareDAL wareDAL;
-        private readonly WareInventoryDAL wareInventoryDAL;
-        //private readonly List<Manager> managers;
+        private readonly ManagerDAL DAL;
+        private readonly List<Manager> managers;
         private readonly string connectionString;
         private SqlConnection connection;
-        private readonly InventoryManager inventoryManager;
-        public ManagerDALTests()
+        public SomeTests()
         {
             IConfiguration config = new ConfigurationBuilder()
            .SetBasePath(Directory.GetCurrentDirectory())
@@ -24,22 +19,17 @@ namespace DALTests
            .Build();
 
             connectionString = config.GetConnectionString("InventoryManager_TESTS");
-            managerDAL = new ManagerDAL(connectionString);
-            orderDAL = new OrderDAL(connectionString);
-            wareDAL = new WareDAL(connectionString);
-            wareInventoryDAL = new WareInventoryDAL(connectionString);
-
+            DAL = new ManagerDAL(connectionString);
             connection = new SqlConnection(connectionString);
-            inventoryManager = new InventoryManager(managerDAL, orderDAL, wareDAL, wareInventoryDAL);
-            //managers = new List<Manager>();
+            managers = new List<Manager>();
         }
         [SetUp] //before everytest
         public void Setup()
         {
-            managers.Clear();
-            managers.Add(AddManagerToDBPlusReturn(1));
-            managers.Add(AddManagerToDBPlusReturn(2));
-            managers.Add(AddManagerToDBPlusReturn(3));
+            //managers.Clear();
+            //managers.Add(AddManagerToDBPlusReturn(1));
+            //managers.Add(AddManagerToDBPlusReturn(2));
+            //managers.Add(AddManagerToDBPlusReturn(3));
         }
 
         [TearDown] //after everytest
@@ -89,7 +79,7 @@ namespace DALTests
             DeleteManager(addedManager.ManagerID);
 
             Assert.AreEqual(addedManager, gotManager);
-         
+
         }
         [Test]
         public void UpdateTest()
@@ -183,6 +173,16 @@ namespace DALTests
                 connection.Close();
                 return null;
             }
+        }
+        [SetUp]
+        public void Setup()
+        {
+        }
+
+        [Test]
+        public void Test1()
+        {
+            Assert.Pass();
         }
     }
 }

@@ -12,8 +12,12 @@ namespace WPF
         public OrderMenu(InventoryManager inventoryManager)
         {
             InitializeComponent();
-            var viewModel = new OrderMenuViewModel(inventoryManager);
+            var viewModel = new OrderMenuViewModel(inventoryManager,DisplayMessageBox);
             DataContext = viewModel;
+        }
+        private void DisplayMessageBox(string message,string caption)
+        {
+            MessageBox.Show(message,caption, MessageBoxButton.OK, MessageBoxImage.Question);
         }
     }
 }

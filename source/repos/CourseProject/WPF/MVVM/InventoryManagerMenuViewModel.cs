@@ -27,5 +27,9 @@ namespace WPF.MVVM
         {
             _openOrderMenu?.Invoke(_inventoryManager);
         }
+        public string Welcome
+        {
+            get { return "Welcome " + _inventoryManager.CurrentManager.UserName + '!'; }
+        }
     }
 }

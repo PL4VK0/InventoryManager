@@ -72,5 +72,10 @@ namespace WPF.MVVM
         {
             return true;
         }
+
+        public void UpdateCanExecuteChanged()
+        {
+            CanExecuteChangedInternal?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

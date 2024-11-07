@@ -8,15 +8,15 @@
         Title="Wares and Inventory status" Height="450" Width="800"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <ListView ItemsSource="{Binding Wares}" Margin="0,34,400,0">
+        <ListView ItemsSource="{Binding Wares}" Margin="0,34,447,200">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding WareName}" Width="250"/>
-                    <GridViewColumn Header="Cost ₿" DisplayMemberBinding="{Binding Cost}" Width="145"/>
+                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding WareName}" Width="200"/>
+                    <GridViewColumn Header="Cost ₿" DisplayMemberBinding="{Binding Cost}" Width="150"/>
                 </GridView>
             </ListView.View>
         </ListView>
-        <ListView ItemsSource="{Binding WareInventory}" Margin="500,36,0,0">
+        <ListView ItemsSource="{Binding WareInventory}" Margin="500,36,0,200">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Ware" DisplayMemberBinding="{Binding WareName}" Width="200"/>
@@ -34,5 +34,67 @@
                HorizontalAlignment="Left" 
                Margin="500,10,0,0" 
                VerticalAlignment="Top"/>
+        <Button Content="Refresh"
+                Style="{StaticResource StandartButton}"
+                Command="{Binding RefreshInventoryCommand}"
+                HorizontalAlignment="Left" 
+                Margin="690,8,0,0" 
+                VerticalAlignment="Top" Height="26" Width="100"/>
+        <Button Content="Sort by Name"
+                Style="{StaticResource StandartButton}"
+                Command="{Binding SortWaresByNameCommand}"
+                HorizontalAlignment="Left" 
+                Margin="0,239,0,0" 
+                VerticalAlignment="Top" Height="34" Width="111"/>
+        <Button Content="Sort by Cost"
+            Style="{StaticResource ResourceKey=StandartButton}"
+            Command="{Binding SortWaresByCostCommand}"
+            HorizontalAlignment="Left" 
+            Margin="0,273,0,0" 
+            VerticalAlignment="Top" Height="34" Width="111"/>
+        <CheckBox Content="Descending" 
+                  IsChecked="{Binding DescendingForWares}"
+                  HorizontalAlignment="Left" 
+                  Margin="141,261,0,0" 
+                  VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Left" 
+                 Text="{Binding TxtBoxWareName,UpdateSourceTrigger=PropertyChanged}"
+                 Margin="141,342,0,0" 
+                 TextWrapping="Wrap" 
+                 VerticalAlignment="Top" 
+                 Width="120"/>
+        <Button Content="Find by Name"
+                Style="{StaticResource ResourceKey=StandartButton}"
+                Command="{Binding FindWaresByNameCommand}"
+                HorizontalAlignment="Left" 
+                Margin="0,334,0,0" 
+                VerticalAlignment="Top" 
+                Height="34" 
+                Width="111"/>
+        <Button Content="Sort by Name"
+            Style="{StaticResource StandartButton}"
+            Command="{Binding SortInventoryItemByNameCommand}"
+            HorizontalAlignment="Left" 
+            Margin="500,242,0,0" 
+            VerticalAlignment="Top" Height="34" Width="111"/>
+        <CheckBox Content="Descending" 
+            IsChecked="{Binding DescendingForInventoryItems}"
+            HorizontalAlignment="Left" 
+            Margin="628,253,0,0" 
+            VerticalAlignment="Top"/>
+        <Button Content="Find by Name"
+            Style="{StaticResource ResourceKey=StandartButton}"
+            Command="{Binding FindInventoryItemByNameCommand}"
+            HorizontalAlignment="Left" 
+            Margin="499,329,0,0" 
+            VerticalAlignment="Top" 
+            Height="34" 
+            Width="111"/>
+        <TextBox HorizontalAlignment="Left" 
+            Text="{Binding TxtBoxInventoryItemName, UpdateSourceTrigger=PropertyChanged}"
+            Margin="628,342,0,0" 
+            TextWrapping="Wrap" 
+            VerticalAlignment="Top" 
+            Width="120"/>
     </Grid>
 </Window>

@@ -5,33 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mvvm="clr-namespace:WPF.MVVM"
         mc:Ignorable="d"
-        Title="Authentication (are you really our employee?)" Height="450" Width="800"
+        Title="Authentication (are you really our employee?)" Height="368" Width="460"
         Style="{StaticResource AuthenticationWindow}"
         DataContext="AuthenticationViewModel"
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize">
-        <!--d:DataContext="{d:DesignInstance Type=mvvm:AuthenticationViewModel}"-->
-    <Grid>
-        <!--<Button Name="btnLogin" HorizontalAlignment="Center" Margin="0,240,0,0" VerticalAlignment="Top" Style="{StaticResource LoginButton}" Command="{Binding LoginCommand}" IsEnabled="{Binding IsEnabled}"/>-->
+    <Grid Margin="0,0,0,-6">
         <Button Style="{StaticResource StandartButton}" 
-                Margin="350,245,350,89" 
-                Command="{Binding LoginCommand}"
-                Content="Log In"/>
-        <TextBox Name="txtBoxUserName" 
-                 HorizontalAlignment="Center" 
-                 Margin="0,155,0,0"  
-                 VerticalAlignment="Top" 
-                 Width="120" 
-                 Text="{Binding UserName, ValidatesOnDataErrors=True,UpdateSourceTrigger=PropertyChanged}"/>
+            FontSize="42"
+            Margin="0,179,0,0" 
+            Command="{Binding LoginCommand}"
+            Content="Log In" HorizontalAlignment="Center" Width="460" Height="179" VerticalAlignment="Top"/>
+        <TextBox x:Name="txtBoxUserName" 
+            HorizontalAlignment="Center" 
+            Margin="0,75,0,0"  
+            VerticalAlignment="Top" 
+            Width="120" 
+            Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
         <PasswordBox HorizontalAlignment="Center" 
-                     Margin="0,199,0,0" 
-                     VerticalAlignment="Top" 
-                     Width="120" 
-                     PasswordChar="" 
-                     x:Name="txtBoxPassword" 
-                     PasswordChanged="txtBoxPassword_PasswordChanged"/>
-        <Label Content="UserName" HorizontalAlignment="Left" Margin="340,124,0,0" VerticalAlignment="Top"/>
-        <Label Content="Password" HorizontalAlignment="Left" Margin="340,173,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.146,0.271"/>
-        <!--<Button Content="Button" HorizontalAlignment="Left" Margin="551,272,0,0" VerticalAlignment="Top" Command="{Binding LoginCommand}"/>-->
+            Margin="0,139,0,0" 
+            VerticalAlignment="Top" 
+            Width="120" 
+            PasswordChar="" 
+            x:Name="txtBoxPassword" 
+            PasswordChanged="txtBoxPassword_PasswordChanged"/>
+        <Label Content="UserName" Style="{StaticResource StandartLabel}"  HorizontalAlignment="Center" Margin="0,49,0,0" VerticalAlignment="Top"/>
+        <Label Content="Password" Style="{StaticResource StandartLabel}" HorizontalAlignment="Left" Margin="194,106,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.146,0.271"/>
     </Grid>
 </Window>

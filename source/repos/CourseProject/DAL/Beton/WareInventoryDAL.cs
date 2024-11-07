@@ -14,7 +14,7 @@ namespace DAL.Beton
         {
             using (SqlCommand cmd = _connection.CreateCommand())
             {
-                cmd.CommandText = "INSERT INTO tblWareInventory (wareID,wareName,count) VALUES (@wareID,@wareName,@count)";
+                cmd.CommandText = "INSERT INTO tblInventory (wareID,wareName,count) VALUES (@wareID,@wareName,@count)";
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("wareID", wareInventory.WareID);
                 cmd.Parameters.AddWithValue("wareName",wareInventory.WareName);
@@ -35,7 +35,6 @@ namespace DAL.Beton
                 cmd.Parameters.AddWithValue("wareID", id);
 
                 _connection.Open();
-
                 short rows = (short)cmd.ExecuteNonQuery();
                 _connection.Close();
                 return rows;
@@ -75,16 +74,16 @@ namespace DAL.Beton
 
                 _connection.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
-
-
+                WareInventory gotInventoryItem = null;
                 if (reader.Read())
-                    return new WareInventory
+                    gotInventoryItem = new WareInventory
                     {
                         WareID = Convert.ToInt16(reader["wareID"]),
                         WareName= reader["wareName"].ToString(),
-                        Count = Convert.ToInt16(reader["wareDescription"].ToString())
+                        Count = Convert.ToInt16(reader["count"].ToString())
                     };
-                return null;
+                _connection.Close();
+                return gotInventoryItem;
             }
         }
 

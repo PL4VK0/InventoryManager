@@ -5,27 +5,36 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
-        Title="Inventory Manager Menu" Height="450" Width="800"
+        Title="Inventory Manager Menu" Height="248" Width="348"
         Style="{StaticResource MainMenuWindow}"
         DataContext="InventoryManagerMenuViewModel"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize">
-    <Grid>
+        ResizeMode="CanMinimize"
+        Background="DarkSalmon">
+    <Grid Margin="0,0,0,-6">
         <Button Style="{StaticResource StandartButton}" 
                 HorizontalAlignment="Center" 
-                Margin="0,178,0,0" 
+                Margin="0,94,0,0" 
                 VerticalAlignment="Top" 
                 Height="39" Width="210"
                 Command="{Binding InventoryMenuCommand}"
-                Content="Inventory Menu"/>
+                Content="Inventory Menu"
+                Background="DarkGreen"/>
 
         <Button Style="{StaticResource StandartButton}" 
                 HorizontalAlignment="Center" 
-                Margin="0,222,0,0" 
+                Margin="0,138,0,0" 
                 VerticalAlignment="Top" 
                 Height="39" Width="210"
                 Command="{Binding OrderMenuCommand}"
-                Content="Order Menu"/>
+                Content="Order Menu"
+                Background="OrangeRed"/>
+        <Label Content="{Binding Welcome}" 
+               FontSize="20"
+               Style="{StaticResource StandartLabel}" 
+               HorizontalAlignment="Left" 
+               Margin="69,25,0,0" 
+               VerticalAlignment="Top"/>
 
     </Grid>
 </Window>
