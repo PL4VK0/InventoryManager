@@ -33,5 +33,13 @@
             get { return cost; }
             set { cost = value; }
         }
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Ware;
+            return other.WareName==WareName&&
+                other.WareDescription==WareDescription&&
+                other.Cost==Cost&&
+                other.WareID==WareID;
+        }
     }
 }

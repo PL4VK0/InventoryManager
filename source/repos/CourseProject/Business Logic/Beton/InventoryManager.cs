@@ -23,10 +23,6 @@ namespace Business_Logic.Beton
         {
             return wareDAL.GetAll();
         }
-        public Ware GetWareByID(int id)
-        {
-            return wareDAL.GetByID((short)id);
-        }
         public Order PlaceOrder(Order order)
         {
             return orderDAL.Add(order);
@@ -41,23 +37,6 @@ namespace Business_Logic.Beton
             try
             {
                 orderDAL.DeleteByID(ID);
-                return true;
-            }catch
-            {
-                return false;
-            }
-        }
-        public bool ReceiveOrder(Order order)
-        {
-            WareInventory itemToUpdate = new WareInventory
-            {
-                WareID = order.WareID,
-                Count = order.Count
-            };
-            try
-            {
-                wareInventoryDAL.Update(itemToUpdate);
-                DiscardOrderByID(order.OrderID);
                 return true;
             }catch
             {

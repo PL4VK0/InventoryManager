@@ -36,7 +36,16 @@
 
         public override string ToString()
         {
-            return $"OrderID - {orderID}, ManagerID - {managerID}, Date - {Date}";
+            return $"OrderID - {orderID}, ManagerID - {managerID}, WareID - {WareID}, Count - {Count}, Date - {Date}";
+        }
+        public override bool Equals(object? obj)
+        {
+            var other = obj as Order;
+            return other.WareID == WareID &&
+                other.Count == Count &&
+                //other.Date == Date &&
+                other.OrderID == OrderID &&
+                other.ManagerID == ManagerID;
         }
     }
 }

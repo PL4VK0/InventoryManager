@@ -1,4 +1,5 @@
 ﻿using DTO;
+using WPF.ViewModels;
 
 namespace Business_Logic.Abstract
 {
@@ -6,12 +7,13 @@ namespace Business_Logic.Abstract
     {
 
         List<Ware> GetAllWares();
-        Ware GetWareByID(int id);
         Order PlaceOrder(Order order);
 
         List<Order> GetAllOrders();
         bool DiscardOrderByID(short ID);
-        bool ReceiveOrder(Order order);
-        public bool UpdateOrder(Order order);
+        bool UpdateOrder(Order order);
+        List<WareInventory> GetAllWareInventory();
+        List<Manager> GetAllManagers();
+        void CommitOrder(tblOrder tblOrder);
     }
 }

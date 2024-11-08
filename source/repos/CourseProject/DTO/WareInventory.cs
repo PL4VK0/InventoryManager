@@ -21,5 +21,16 @@
             get { return wareName; }
             set { wareName = value; }
         }
+        public override string ToString()
+        {
+            return $"ID - {WareID}, Name - {WareName}, Count - {Count}";
+        }
+        public override bool Equals(object? obj)
+        {
+            var other = obj as WareInventory;
+            return other.Count == Count &&
+                other.WareID == WareID &&
+                other.WareName == WareName;
+        }
     }
 }

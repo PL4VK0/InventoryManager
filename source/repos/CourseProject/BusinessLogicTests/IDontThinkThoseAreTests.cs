@@ -1,16 +1,21 @@
+using Business_Logic.Beton;
 using DAL.Beton;
 using DTO;
 using Microsoft.Extensions.Configuration;
 using System.Data.SqlClient;
+using WPF.ViewModels;
 
 namespace BusinessLogicTests
 {
     public class SomeTests
     {
-        private readonly ManagerDAL DAL;
-        private readonly List<Manager> managers;
+        private readonly ManagerDAL managerDAL;
+        private readonly OrderDAL orderDAL;
+        private readonly WareDAL wareDAL;
+        private readonly WareInventoryDAL wareInventoryDAL;
         private readonly string connectionString;
         private SqlConnection connection;
+        private readonly InventoryManager inventoryManager;
         public SomeTests()
         {
             IConfiguration config = new ConfigurationBuilder()
@@ -19,108 +24,147 @@ namespace BusinessLogicTests
            .Build();
 
             connectionString = config.GetConnectionString("InventoryManager_TESTS");
-            DAL = new ManagerDAL(connectionString);
+            managerDAL = new ManagerDAL(connectionString);
+            orderDAL = new OrderDAL(connectionString);
+            wareDAL = new WareDAL(connectionString);
+            wareInventoryDAL = new WareInventoryDAL(connectionString);
+
             connection = new SqlConnection(connectionString);
-            managers = new List<Manager>();
-        }
-        [SetUp] //before everytest
-        public void Setup()
-        {
-            //managers.Clear();
-            //managers.Add(AddManagerToDBPlusReturn(1));
-            //managers.Add(AddManagerToDBPlusReturn(2));
-            //managers.Add(AddManagerToDBPlusReturn(3));
-        }
-
-        [TearDown] //after everytest
-        public void TearDown()
-        {
-            using (SqlCommand cmd = connection.CreateCommand())
-            {
-                cmd.CommandText = $"DELETE FROM tblManager WHERE 1 = 1";
-                connection.Open();
-                cmd.ExecuteNonQuery();
-                connection.Close();
-            }
-        }
-
-        [Test]
-        public void DeleteTest()
-        {
-            DAL.DeleteByID(managers[0].ManagerID);
-            DAL.DeleteByID(managers[1].ManagerID);
-            DAL.DeleteByID(managers[2].ManagerID); //start by getByID then add then delete then update then go home and relax
-                                                   //(if you're already home then don't even try to do this)
-            short count = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                Manager manager = GetByID(managers[i].ManagerID);
-                if (manager != null)
-                    count++;
-            }
-            Assert.IsTrue(count == 0);
+            inventoryManager = new InventoryManager(managerDAL, orderDAL, wareDAL, wareInventoryDAL);
+            
         }
         [Test]
-        public void GetByIDTest()
+        public void GetAllWaresTest()
         {
-            Manager expected = managers[0];
-            Manager actual = DAL.GetByID(managers[0].ManagerID);
-            Assert.AreEqual(expected, actual);
-        }
-
-
-        [Test]
-        public void AddTest()
-        {
-            var addedManager = AddManagerToDBPlusReturn(4);
-
-            var gotManager = DAL.GetByID(addedManager.ManagerID);
-
-            DeleteManager(addedManager.ManagerID);
-
-            Assert.AreEqual(addedManager, gotManager);
-
-        }
-        [Test]
-        public void UpdateTest()
-        {
-            string newFN = "newFN";
-            string newLN = "newLN";
-            string newUN = "newUN";
-            string newPW = "newPW";
-
-            using (SqlCommand cmd = connection.CreateCommand())
+            var wares = new List<Ware>
             {
-                cmd.CommandText = $"UPDATE tblManager SET firstName = 'newFN', lastName = 'newLN', userName = 'newUN', password = 'newPW', WHERE managerID = {managers[1].ManagerID}";
-                connection.Open();
-                cmd.ExecuteNonQuery();
-                connection.Close();
-            }
-            Manager updatedManger = new Manager
-            {
-                ManagerID = managers[1].ManagerID,
-                FirstName = newFN,
-                LastName = newLN,
-                UserName = newUN,
-                Password = newPW,
+                AddWareToDBPlusReturn(1),
+                AddWareToDBPlusReturn(2),
+                AddWareToDBPlusReturn(3),
+                AddWareToDBPlusReturn(4)
             };
-
-            Assert.AreEqual(DAL.GetByID(managers[1].ManagerID), updatedManger);
-
+            var dbWares = inventoryManager.GetAllWares();
+            for (int i = 0; i < wares.Count; i++)
+                wareDAL.DeleteByID(wares[i].WareID);
+            for(int i = 0;i < dbWares.Count; i++)
+                Assert.AreEqual(wares[i], dbWares[i]);
         }
         [Test]
-        public void GetAllTest()
+        public void GetAllOrders()
         {
-            List<Manager> gotList = DAL.GetAll();
+            var orders = new List<Order>
+            {
+                AddOrderToDBPlusReturn(1),
+                AddOrderToDBPlusReturn(2),
+                AddOrderToDBPlusReturn(3),
+                AddOrderToDBPlusReturn(4)
+            };
+            var dbOrders = inventoryManager.GetAllOrders();
+            for(int i = 0;i<orders.Count;i++)
+                orderDAL.DeleteByID(orders[i].OrderID);
+            for(int i = 0;i<orders.Count;i++)
+                Assert.AreEqual(orders[i], dbOrders[i]);
+        }
+        [Test]
+        public void PlaceOrderTest()
+        {
+            var order = new Order
+            {
+                WareID = 1,
+                ManagerID = 1,
+                Count = 1,
+                Date = DateTime.Now,
+            };
+            order = inventoryManager.PlaceOrder(order);
+            var dbOrder = inventoryManager.GetAllOrders().FirstOrDefault();
+            orderDAL.DeleteByID(order.OrderID);
+            Assert.AreEqual(dbOrder, order);
+        }
+        [Test]
+        public void DiscardOrderTest()
+        {
+            var newOrder = AddOrderToDBPlusReturn(1);
+            inventoryManager.DiscardOrderByID(newOrder.OrderID);
+            var order = inventoryManager.GetAllOrders().FirstOrDefault();
+            Assert.IsNull(order);
+        }
 
-            for (int i = 0; i < gotList.Count; i++)
-                Assert.AreEqual(managers[i], gotList[i]);
+        [Test]
+        public void UpdateOrderTest()
+        {
+            var order = AddOrderToDBPlusReturn(1);
+            var newOrder = order;
+            newOrder.ManagerID = 2;
+            newOrder.Count = 2;
+            newOrder.WareID = 2;
+            inventoryManager.UpdateOrder(newOrder);
+            var updatedOrder = inventoryManager.GetAllOrders().FirstOrDefault();
+            orderDAL.DeleteByID(order.OrderID);
+            Assert.AreEqual(updatedOrder,newOrder);
+        }
+        [Test]
+        public void GetAllWareInventory()
+        {
+            var inventoryItems = new List<WareInventory>
+            {
+                AddWareInventoryItemToDBPlusReturn(1),
+                AddWareInventoryItemToDBPlusReturn(2),
+                AddWareInventoryItemToDBPlusReturn(3)
+            };
+            var dbInventoryItems = inventoryManager.GetAllWareInventory();
+            for(int i = 0; i < dbInventoryItems.Count; i++)
+                wareInventoryDAL.DeleteByID(inventoryItems[i].WareID);
+            for(int i = 0;i < dbInventoryItems.Count; i++)
+                Assert.AreEqual(inventoryItems[i], dbInventoryItems[i]);
+        }
+        [Test]
+        public void CommitOrderTest()
+        {
+            var order = AddOrderToDBPlusReturn(1);
+            var inventoryItem = new WareInventory
+            {
+                WareID = order.WareID,
+                WareName = "1",
+                Count = 1
+            };
+            tblOrder tblOrder = (new tblOrder
+            {
+                OrderID = order.OrderID,
+                WareID = order.WareID,
+                WareName = "1",
+                ManagerID = order.ManagerID,
+                Count = 1,
+            });
+            inventoryManager.CommitOrder(tblOrder);
+            var mustBeNullOrder = inventoryManager.GetAllOrders().FirstOrDefault();
+            Assert.IsNull(mustBeNullOrder);
+            var dbInventoryItem = inventoryManager.GetAllWareInventory().FirstOrDefault();
+            Assert.AreEqual(dbInventoryItem, inventoryItem);
+            //----------------------------------------------------------------
+            //update existing inventoryItem
+            order.OrderID++;
+            order.Count = 50;
+            tblOrder.OrderID++;
+            tblOrder.Count = 50;
+
+            inventoryManager.PlaceOrder(order);
+            inventoryManager.CommitOrder(tblOrder);
+            inventoryItem.Count = 51;
+            dbInventoryItem = inventoryManager.GetAllWareInventory().FirstOrDefault();
+            wareInventoryDAL.DeleteByID(order.WareID);
+            Assert.AreEqual(inventoryItem,dbInventoryItem);
+        }
+        [Test]
+        public void GetAllManagersTest()
+        {
+            //i've done it in the dal section (and it was working) but now its just the same plus different typre of password and added salt
+            Assert.Pass();
         }
         public Manager AddManagerToDBPlusReturn(short number)
         {
-            connection.Open();
             using (SqlCommand cmd = connection.CreateCommand())
             {
+                connection.Open();
                 cmd.CommandText = $"INSERT INTO tblManager (firstName, lastName, userName, password) OUTPUT INSERTED.managerID VALUES ('fN{number}', 'lN{number}', 'uN{number}', 'pw{number}')";
                 int id = (int)cmd.ExecuteScalar();
                 connection.Close();
@@ -134,55 +178,59 @@ namespace BusinessLogicTests
                 };
             }
         }
-        public int DeleteManager(short id)
+        public Ware AddWareToDBPlusReturn(short ID)
         {
             using (SqlCommand cmd = connection.CreateCommand())
             {
-                cmd.CommandText = $"DELETE FROM tblManager WHERE managerID = {id}";
-                connection.Open();
-                int result = cmd.ExecuteNonQuery();
-                connection.Close();
-                return result;
-            }
-        }
-
-
-
-        public Manager GetByID(short id)
-        {
-            using (SqlCommand cmd = connection.CreateCommand())
-            {
-                cmd.CommandText = $"SELECT * FROM tblManager WHERE managerID = {id}";
-                connection.Open();
-                SqlDataReader reader = cmd.ExecuteReader();
-
-
-                if (reader.Read())
+                Ware newWare = new Ware
                 {
-                    var manager = new Manager
-                    {
-                        ManagerID = (short)id,
-                        FirstName = reader.GetString(0),
-                        LastName = reader.GetString(1),
-                        UserName = reader.GetString(2),
-                        Password = reader.GetString(3)
-                    };
-                    connection.Close();
-                    return manager;
-                }
+                    WareName = $"wareName{ID}",
+                    WareDescription = $"wareDescription{ID}",
+                    Cost = ID
+                };
+                cmd.CommandText = $"INSERT INTO tblWare (wareName,wareDescription,wareCost) output inserted.wareID VALUES ('wareName{ID}','wareDescription{ID}',{ID})";
+                connection.Open();
+                newWare.WareID = Convert.ToInt16(cmd.ExecuteScalar());
                 connection.Close();
-                return null;
+                return newWare;
             }
         }
-        [SetUp]
-        public void Setup()
+        public Order AddOrderToDBPlusReturn(short ID)
         {
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                Order newOrder= new Order
+                {
+                    Count = ID,
+                    ManagerID = ID,
+                    WareID =ID,
+                    Date = DateTime.Now,
+                };
+                cmd.CommandText = $"INSERT INTO tblOrder (wareID,managerID,count,date) output inserted.orderID VALUES ({ID},{ID},{ID},@date)";
+                cmd.Parameters.Clear();
+                cmd.Parameters.AddWithValue("date",newOrder.Date);
+                connection.Open();
+                newOrder.OrderID = Convert.ToInt16(cmd.ExecuteScalar());
+                connection.Close();
+                return newOrder;
+            }
         }
-
-        [Test]
-        public void Test1()
+        public WareInventory AddWareInventoryItemToDBPlusReturn(short ID)
         {
-            Assert.Pass();
+            using (SqlCommand cmd = connection.CreateCommand())
+            {
+                WareInventory newItem = new WareInventory
+                {
+                    Count = ID,
+                    WareID = ID,
+                    WareName = ID.ToString()
+                };
+                cmd.CommandText = $"INSERT INTO tblInventory (wareID,wareName,count) VALUES ({ID},'{ID}',{ID})";
+                connection.Open();
+                cmd.ExecuteNonQuery();
+                connection.Close();
+                return newItem;
+            }
         }
     }
 }

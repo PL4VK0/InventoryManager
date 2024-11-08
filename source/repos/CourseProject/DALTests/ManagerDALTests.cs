@@ -12,7 +12,7 @@ namespace DALTests
         private readonly OrderDAL orderDAL;
         private readonly WareDAL wareDAL;
         private readonly WareInventoryDAL wareInventoryDAL;
-        //private readonly List<Manager> managers;
+        private readonly List<Manager> managers;
         private readonly string connectionString;
         private SqlConnection connection;
         private readonly InventoryManager inventoryManager;
@@ -31,7 +31,7 @@ namespace DALTests
 
             connection = new SqlConnection(connectionString);
             inventoryManager = new InventoryManager(managerDAL, orderDAL, wareDAL, wareInventoryDAL);
-            //managers = new List<Manager>();
+            managers = new List<Manager>();
         }
         [SetUp] //before everytest
         public void Setup()
@@ -57,9 +57,9 @@ namespace DALTests
         [Test]
         public void DeleteTest()
         {
-            DAL.DeleteByID(managers[0].ManagerID);
-            DAL.DeleteByID(managers[1].ManagerID);
-            DAL.DeleteByID(managers[2].ManagerID); //start by getByID then add then delete then update then go home and relax
+            managerDAL.DeleteByID(managers[0].ManagerID);
+            managerDAL.DeleteByID(managers[1].ManagerID);
+            managerDAL.DeleteByID(managers[2].ManagerID); //start by getByID then add then delete then update then go home and relax
                                                    //(if you're already home then don't even try to do this)
             short count = 0;
             for (int i = 0; i < 3; i++)
@@ -74,7 +74,7 @@ namespace DALTests
         public void GetByIDTest()
         {
             Manager expected = managers[0];
-            Manager actual = DAL.GetByID(managers[0].ManagerID);
+            Manager actual = managerDAL.GetByID(managers[0].ManagerID);
             Assert.AreEqual(expected, actual);
         }
 
@@ -84,7 +84,7 @@ namespace DALTests
         {
             var addedManager = AddManagerToDBPlusReturn(4);
 
-            var gotManager = DAL.GetByID(addedManager.ManagerID);
+            var gotManager = managerDAL.GetByID(addedManager.ManagerID);
 
             DeleteManager(addedManager.ManagerID);
 
@@ -115,13 +115,13 @@ namespace DALTests
                 Password = newPW,
             };
 
-            Assert.AreEqual(DAL.GetByID(managers[1].ManagerID), updatedManger);
+            Assert.AreEqual(managerDAL.GetByID(managers[1].ManagerID), updatedManger);
 
         }
         [Test]
         public void GetAllTest()
         {
-            List<Manager> gotList = DAL.GetAll();
+            List<Manager> gotList = managerDAL.GetAll();
 
             for (int i = 0; i < gotList.Count; i++)
                 Assert.AreEqual(managers[i], gotList[i]);
