@@ -9,8 +9,7 @@
         Style="{StaticResource MainMenuWindow}"
         DataContext="InventoryManagerMenuViewModel"
         WindowStartupLocation="CenterScreen"
-        ResizeMode="CanMinimize"
-        Background="DarkSalmon">
+        ResizeMode="CanMinimize">
     <Grid Margin="0,0,0,-6">
         <Button Style="{StaticResource StandartButton}" 
                 HorizontalAlignment="Center" 

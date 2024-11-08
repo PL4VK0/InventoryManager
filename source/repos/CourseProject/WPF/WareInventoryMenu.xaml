@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
         Title="Wares and Inventory status" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource WareInventoryMenuWindow}">
     <Grid>
         <ListView ItemsSource="{Binding Wares}" Margin="0,34,447,200">
             <ListView.View>

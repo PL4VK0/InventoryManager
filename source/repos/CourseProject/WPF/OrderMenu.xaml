@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:WPF"
         mc:Ignorable="d"
         Title="Order Menu" Height="450" Width="800"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Style="{StaticResource OrderMenuWindow}">
     <Grid>
         <ListView ItemsSource="{Binding Orders}" 
                   Margin="0,44,256,0" 
