@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPF", "WPF\WPF.csproj", "{8
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StaticClasses", "Services\StaticClasses.csproj", "{E671C3D3-113D-4AC6-BDCA-EFB68F4BBDDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicTests", "BusinessLogicTests\BusinessLogicTests.csproj", "{C6811356-2E9E-4FC5-A003-7BE4408B65B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BusinessLogicTests", "BusinessLogicTests\BusinessLogicTests.csproj", "{C6811356-2E9E-4FC5-A003-7BE4408B65B1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

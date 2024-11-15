@@ -12,7 +12,7 @@ namespace WPF.MVVM
     {
 
         private InventoryManager _inventoryManager;
-        private short count;
+        private short count = 0;
         private  List<Ware>? wares;
         private Action<string, string> DisplayMessageBox;
 
@@ -141,23 +141,24 @@ namespace WPF.MVVM
         {
             if (!PlaceOrderPredicate(qch)) 
                 return false;
-            if(selectedTblOrder==null) 
+            if(SelectedTblOrder==null) 
                 return false;
             if (SelectedTblOrder.WareID == SelectedWare?.WareID && 
                 SelectedTblOrder.Count == Count) 
                 return false;
             return true;
         }
+        private bool PlaceOrderPredicate(object qch)
+        {
+            if(SelectedWare==null) return false;
+            if(Count==null) return false;
+            if (Count <= 0 || Count >= 100) return false;
+            return true;
+        }
         private bool CommitAndDiscardPredicate(object qch)
         {
             if(SelectedTblOrder==null)
                 return false;
-            return true;
-        }
-        private bool PlaceOrderPredicate(object qch)
-        {
-            if(SelectedWare==null) return false;
-            if (Count <= 0 || Count >= 100) return false;
             return true;
         }
 

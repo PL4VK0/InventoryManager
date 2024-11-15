@@ -28,6 +28,7 @@
         public override bool Equals(object? obj)
         {
             var other = obj as WareInventory;
+            if (other == null) return false;
             return other.Count == Count &&
                 other.WareID == WareID &&
                 other.WareName == WareName;

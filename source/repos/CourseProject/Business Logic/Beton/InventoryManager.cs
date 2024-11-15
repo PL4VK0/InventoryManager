@@ -1,4 +1,5 @@
 ﻿using Business_Logic.Abstract;
+using DAL.Abstract;
 using DAL.Beton;
 using DTO;
 using WPF.ViewModels;
@@ -7,12 +8,12 @@ namespace Business_Logic.Beton
 {
     public class InventoryManager : IInventoryManager
     {
-        private readonly ManagerDAL managerDAL;
-        private readonly OrderDAL orderDAL;
-        private readonly WareDAL wareDAL;
-        private readonly WareInventoryDAL wareInventoryDAL;
+        private readonly IManagerDAL managerDAL;
+        private readonly IOrderDAL orderDAL;
+        private readonly IWareDAL wareDAL;
+        private readonly IWareInventoryDAL wareInventoryDAL;
         public Manager? CurrentManager { get; set; } = null;
-        public InventoryManager(ManagerDAL managerDAL,OrderDAL orderDAL, WareDAL wareDAL, WareInventoryDAL wareInventoryDAL)
+        public InventoryManager(IManagerDAL managerDAL,IOrderDAL orderDAL, IWareDAL wareDAL, IWareInventoryDAL wareInventoryDAL)
         {
             this.orderDAL = orderDAL;
             this.wareDAL = wareDAL;

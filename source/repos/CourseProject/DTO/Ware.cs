@@ -35,7 +35,8 @@
         }
         public override bool Equals(object? obj)
         {
-            var other = obj as Ware;
+            Ware other = obj as Ware;
+            if(other == null) return false;
             return other.WareName==WareName&&
                 other.WareDescription==WareDescription&&
                 other.Cost==Cost&&
