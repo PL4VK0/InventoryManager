@@ -13,8 +13,8 @@ namespace WPF
     public partial class MainWindow : Window
     {
         InventoryManager inventoryManager;
-        IAuthenticationService authenticationService;
-        public MainWindow(InventoryManager inventoryManager,IAuthenticationService authenticationService)
+        MyIAuthenticationService authenticationService;
+        public MainWindow(InventoryManager inventoryManager,MyIAuthenticationService authenticationService)
         {
             this.inventoryManager = inventoryManager;
             this.authenticationService = authenticationService;

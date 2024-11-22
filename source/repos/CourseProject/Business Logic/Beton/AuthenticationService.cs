@@ -1,14 +1,15 @@
 ﻿using Business_Logic.Abstract;
+using DAL.Abstract;
 using DAL.Beton;
 using DTO;
 using Services;
 
 namespace Business_Logic.Beton
 {
-    public class AuthenticationService:IAuthenticationService
+    public class AuthenticationService:MyIAuthenticationService
     {
-        private ManagerDAL managerDAL;
-        public AuthenticationService(ManagerDAL managerDAL)
+        private IManagerDAL managerDAL;
+        public AuthenticationService(IManagerDAL managerDAL)
         {
             this.managerDAL = managerDAL;
         }

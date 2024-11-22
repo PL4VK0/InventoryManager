@@ -1,0 +1,54 @@
+﻿@model IEnumerable<Course_Project_MVC.Models.OrderDetailsModel>
+
+<p>
+    <a asp-action="Create">Place New Order!!! (or don't)</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderID)
+            </th>
+@*             <th>
+                @Html.DisplayNameFor(model => model.ManagerID)
+            </th> *@
+            <th>
+                @Html.DisplayNameFor(model => model.WareID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Count)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.OrderBy(o=>o.Date)) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderID)
+            </td>
+@*             <td>
+                @Html.DisplayFor(modelItem => item.ManagerID)
+            </td> *@
+            <td>
+                @Html.DisplayFor(modelItem => item.WareID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.ActionLink("Commit","Commit",new {id=item.OrderID}) |
+                @Html.ActionLink("Edit", "Edit", new { id=item.OrderID}) |
+                    @Html.ActionLink("Details", "Details", new { id = item.OrderID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.OrderID})
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

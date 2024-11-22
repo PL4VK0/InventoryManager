@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Business_Logic.Abstract
 {
-    public interface IAuthenticationService
+    public interface MyIAuthenticationService
     {
         Manager? Authentication(string username, string password);
     }

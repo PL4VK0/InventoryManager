@@ -29,7 +29,7 @@ namespace WPF
             OrderDAL orderDAL = new OrderDAL(connectionString);
             WareInventoryDAL wareInventoryDAL = new WareInventoryDAL(connectionString);
             InventoryManager inventoryManager = new InventoryManager(managerDAL,orderDAL,wareDAL,wareInventoryDAL);
-            IAuthenticationService authenticationService = new AuthenticationService(managerDAL);
+            MyIAuthenticationService authenticationService = new AuthenticationService(managerDAL);
             var startFenetre = new MainWindow(inventoryManager, authenticationService);
             startFenetre.Show();
 

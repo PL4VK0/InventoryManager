@@ -65,24 +65,25 @@ namespace Business_Logic.Beton
             return managerDAL.GetAll();
         }
 
-        public void CommitOrder(tblOrder tblOrder)
+        public void CommitOrder(short id)
         {
-            WareInventory inventoryItem = wareInventoryDAL.GetByID(tblOrder.WareID);
+            Order order = orderDAL.GetByID(id);
+            WareInventory inventoryItem = wareInventoryDAL.GetByID(order.WareID);
             if (inventoryItem == null)
                 wareInventoryDAL.Add(new WareInventory
                 {
-                    WareID = tblOrder.WareID,
-                    Count = tblOrder.Count,
-                    WareName = tblOrder.WareName
+                    WareID = order.WareID,
+                    Count = order.Count,
+                    WareName = wareDAL.GetByID(order.WareID).WareName
                 });
             else
                 wareInventoryDAL.Update(new WareInventory
                 {
-                    WareID = tblOrder.WareID,
-                    Count = Convert.ToInt16(tblOrder.Count + inventoryItem.Count),
-                    WareName = tblOrder.WareName
+                    WareID = order.WareID,
+                    Count = Convert.ToInt16(order.Count + inventoryItem.Count),
+                    WareName = wareDAL.GetByID(order.WareID).WareName
                 });
-            orderDAL.DeleteByID(tblOrder.OrderID);
+            orderDAL.DeleteByID(order.OrderID);
         }
     }
 }

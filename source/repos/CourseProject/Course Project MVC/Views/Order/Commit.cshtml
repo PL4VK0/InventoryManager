@@ -1,0 +1,44 @@
+﻿@model Course_Project_MVC.Models.OrderDetailsModel
+
+<h4>Commiting order....    or order commitment??????</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Commit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="OrderID" class="control-label"></label>
+                <input asp-for="OrderID" class="form-control" readonly/>
+                <span asp-validation-for="OrderID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WareID" class="control-label"></label>
+                <input asp-for="WareID" class="form-control" readonly />
+                <span asp-validation-for="WareID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ManagerID" class="control-label"></label>
+                <input asp-for="ManagerID" class="form-control" readonly />
+                <span asp-validation-for="ManagerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Count" class="control-label"></label>
+                <input asp-for="Count" class="form-control" readonly/>
+                <span asp-validation-for="Count" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date" class="control-label"></label>
+                <input asp-for="Date" class="form-control" readonly />
+                <span asp-validation-for="Date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Commit" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

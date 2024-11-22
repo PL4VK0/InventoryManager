@@ -9,11 +9,11 @@ namespace WPF.MVVM
 {
     public class AuthenticationViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
-        IAuthenticationService _authenticationService;
+        MyIAuthenticationService _authenticationService;
         Action<InventoryManager> _openInvManMenu;
         InventoryManager _inventoryManager;
         Action _clearPasswordBox;
-        public AuthenticationViewModel(IAuthenticationService authenticationService, 
+        public AuthenticationViewModel(MyIAuthenticationService authenticationService, 
                                        InventoryManager inventoryManager,
                                        Action<InventoryManager> openInvManMenu,
                                        Action clearPasswordBox)

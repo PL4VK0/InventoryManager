@@ -14,6 +14,6 @@ namespace Business_Logic.Abstract
         bool UpdateOrder(Order order);
         List<WareInventory> GetAllWareInventory();
         List<Manager> GetAllManagers();
-        void CommitOrder(tblOrder tblOrder);
+        void CommitOrder(short id);
     }
 }

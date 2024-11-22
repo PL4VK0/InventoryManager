@@ -129,7 +129,7 @@ namespace WPF.MVVM
 
         private void Commit(object obj)
         {
-            _inventoryManager.CommitOrder(SelectedTblOrder);
+            _inventoryManager.CommitOrder(SelectedTblOrder.OrderID);
             Orders.Remove(SelectedTblOrder);
             SelectedTblOrder = null;
             OnPropertyChanged(nameof(SelectedTblOrder));
