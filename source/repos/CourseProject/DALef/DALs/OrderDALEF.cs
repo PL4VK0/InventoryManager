@@ -32,7 +32,7 @@ namespace DALef.DALs
         {
             using (var context = new InvManContext(connectionString))
             {
-                var orders = context.TblOrders.ToList();
+                var orders = context.TblOrders.Include(w=>w.Ware).Include(m=>m.Manager).ToList();
                 return mapper.Map<List<Order>>(orders);
             }
         }
@@ -52,7 +52,7 @@ namespace DALef.DALs
         public Order GetByID(short id)
         {
             using (var context = new InvManContext(connectionString))
-                return mapper.Map<Order>(context.TblOrders.Where(t=>t.OrderId== id).FirstOrDefault());
+                return mapper.Map<Order>(context.TblOrders.Where(t=>t.OrderId== id).Include(w=>w.Ware).Include(m=>m.Manager).FirstOrDefault());
         }
 
         public void Update(Order order)

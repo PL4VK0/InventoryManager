@@ -33,14 +33,21 @@ namespace BusinessLogicTests
         [Test]
         public void CommitOrderTest()
         {
+            var ware = new Ware
+            {
+                WareID = 1,
+                WareName = "Test",
+                WareDescription = "Test"
+            };
             var tblOrder = new tblOrder
             {
                 OrderID = 1,
                 ManagerID = 1,
                 ManagerUserName = "TestManager",
-                WareID = 1,
-                WareName = "TestWare",
-                Count = 42
+                WareID = ware.WareID,
+                WareName = ware.WareName,
+                Count = 42,
+                Date = DateTime.Now
             };
             var wareInventory = new WareInventory
             {
@@ -48,8 +55,17 @@ namespace BusinessLogicTests
                 WareID = tblOrder.WareID,
                 WareName = tblOrder.WareName
             };
-
-            wareInventoryDALMock.Setup(m => m.GetByID(tblOrder.WareID)).Returns((WareInventory)null);
+            orderDALMock.Setup(m => m.GetByID(tblOrder.OrderID)).Returns(new Order
+            {
+                OrderID = tblOrder.OrderID,
+                ManagerID = tblOrder.ManagerID,
+                WareID=tblOrder.WareID,
+                Count = tblOrder.Count,
+                Date = tblOrder.Date
+            });
+            wareInventoryDALMock.Setup(m => m.GetByID(tblOrder.WareID)).Returns((WareInventory?)null);
+            //wareInventoryDALMock.Setup(m => m.Add(wareInventory)).Returns(wareInventory);
+            wareDALMock.Setup(m => m.GetByID(tblOrder.WareID)).Returns(ware);
             inventoryManager.CommitOrder(tblOrder.OrderID);
 
             wareInventoryDALMock.Verify(m => m.Add(wareInventory), Times.Once);

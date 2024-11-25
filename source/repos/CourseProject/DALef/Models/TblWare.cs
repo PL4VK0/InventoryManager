@@ -12,4 +12,6 @@ public partial class TblWare
     public string? WareDescription { get; set; }
 
     public float? WareCost { get; set; }
+
+    public virtual ICollection<TblOrder> TblOrders { get; set; } = new List<TblOrder>();
 }

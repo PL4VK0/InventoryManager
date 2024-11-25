@@ -31,8 +31,10 @@ public partial class InventoryManagerContext : DbContext
     {
         modelBuilder.Entity<TblInventory>(entity =>
         {
-            entity.HasKey(e => e.WareId);
-            entity.ToTable("tblInventory");
+            entity
+                .HasNoKey()
+                .ToTable("tblInventory");
+
             entity.Property(e => e.Count).HasColumnName("count");
             entity.Property(e => e.WareId).HasColumnName("wareID");
             entity.Property(e => e.WareName)
@@ -87,6 +89,16 @@ public partial class InventoryManagerContext : DbContext
                 .HasColumnName("date");
             entity.Property(e => e.ManagerId).HasColumnName("managerID");
             entity.Property(e => e.WareId).HasColumnName("wareID");
+
+            entity.HasOne(d => d.Manager).WithMany(p => p.TblOrders)
+                .HasForeignKey(d => d.ManagerId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_tblOrder_tblManager");
+
+            entity.HasOne(d => d.Ware).WithMany(p => p.TblOrders)
+                .HasForeignKey(d => d.WareId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_tblOrder_tblWare");
         });
 
         modelBuilder.Entity<TblWare>(entity =>

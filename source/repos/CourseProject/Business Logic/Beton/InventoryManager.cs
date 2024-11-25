@@ -68,7 +68,7 @@ namespace Business_Logic.Beton
         public void CommitOrder(short id)
         {
             Order order = orderDAL.GetByID(id);
-            WareInventory inventoryItem = wareInventoryDAL.GetByID(order.WareID);
+            WareInventory? inventoryItem = wareInventoryDAL.GetByID(order.WareID);
             if (inventoryItem == null)
                 wareInventoryDAL.Add(new WareInventory
                 {

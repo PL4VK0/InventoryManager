@@ -3,6 +3,7 @@ using DAL.Abstract;
 using DALef.Context;
 using DALef.Models;
 using DTO;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.Json;
 
 namespace DALef.DALs
@@ -39,7 +40,7 @@ namespace DALef.DALs
         public WareInventory GetByID(short id)
         {
             using (var context = new InvManContext(connectionString))
-                return mapper.Map<WareInventory>(context.TblInventories.Where(i=>i.WareId==id).FirstOrDefault());
+                return mapper.Map<WareInventory>(context.TblInventories.Include(w=>w.Ware).Where(i=>i.WareId==id).FirstOrDefault());
         }
 
         public void Update(WareInventory wareInventory)

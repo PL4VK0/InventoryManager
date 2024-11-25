@@ -166,6 +166,8 @@ namespace Course_Project_MVC.Controllers
             model.ManagerID = order.ManagerID;
             model.Count = order.Count;
             model.Date = order.Date;
+            model.UserName = order.UserName;
+            model.WareName = order.WareName;
         }
         private void GetRequiredItems(int id, OrderDetailsModel model)
         {
@@ -175,6 +177,8 @@ namespace Course_Project_MVC.Controllers
             model.ManagerID = order.ManagerID;
             model.Count = order.Count;
             model.Date = order.Date;
+            model.UserName = order.UserName;
+            model.WareName = order.WareName;
         }
     }
 }

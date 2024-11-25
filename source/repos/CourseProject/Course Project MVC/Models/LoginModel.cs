@@ -11,5 +11,12 @@ namespace Course_Project_MVC.Models
         [StringLength(50,MinimumLength = 4, ErrorMessage = "Passsssssword ssssshould be at leasssst 4 sssymbolsss long!")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        public override bool Equals(object? obj)
+        {
+            LoginModel? other = obj as LoginModel;
+            if (other == null) return false;
+            return other.UserName==UserName && other.Password==Password;
+        }
     }
 }

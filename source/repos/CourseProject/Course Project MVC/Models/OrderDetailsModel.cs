@@ -1,5 +1,6 @@
 ﻿using DAL.Beton;
 using DTO;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace Course_Project_MVC.Models
@@ -17,7 +18,10 @@ namespace Course_Project_MVC.Models
             Date = DateTime.MinValue;
         }
         public short OrderID { get; set; }
+        [DisplayName("Manager's Username")]
         public string UserName { get; set; }
+
+        [DisplayName("Ware Name")]
         public string WareName { get; set; }
         public short WareID { get; set; }
         public short ManagerID { get; set; }

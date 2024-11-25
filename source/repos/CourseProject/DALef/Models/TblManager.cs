@@ -16,4 +16,6 @@ public partial class TblManager
     public byte[] Password { get; set; } = null!;
 
     public string Salt { get; set; } = null!;
+
+    public virtual ICollection<TblOrder> TblOrders { get; set; } = new List<TblOrder>();
 }

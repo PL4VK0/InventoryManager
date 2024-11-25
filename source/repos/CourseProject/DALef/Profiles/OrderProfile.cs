@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using DALef.Models;
 using DTO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DALef.Profiles
 {
@@ -13,8 +8,10 @@ namespace DALef.Profiles
     {
         public OrderProfile()
         {
-            CreateMap<TblOrder, Order>();
-            CreateMap<Order,TblOrder>();
+            CreateMap<TblOrder, Order>()
+                .ForMember(d => d.UserName, s => s.MapFrom(m => m.Manager.UserName))
+                .ForMember(d => d.WareName, s => s.MapFrom(m => m.Ware.WareName));
+            CreateMap<Order, TblOrder>();
         }
 
     }

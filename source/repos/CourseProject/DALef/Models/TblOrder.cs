@@ -14,4 +14,6 @@ public partial class TblOrder
     public int Count { get; set; }
 
     public DateTime Date { get; set; }
+    public TblWare Ware { get; set; } = null!;
+    public TblManager Manager { get; set; } = null!;
 }

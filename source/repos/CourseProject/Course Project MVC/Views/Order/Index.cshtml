@@ -7,13 +7,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderID)
-            </th>
-@*             <th>
-                @Html.DisplayNameFor(model => model.ManagerID)
-            </th> *@
-            <th>
-                @Html.DisplayNameFor(model => model.WareID)
+                @Html.DisplayNameFor(model => model.WareName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Count)
@@ -28,13 +22,7 @@
 @foreach (var item in Model.OrderBy(o=>o.Date)) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderID)
-            </td>
-@*             <td>
-                @Html.DisplayFor(modelItem => item.ManagerID)
-            </td> *@
-            <td>
-                @Html.DisplayFor(modelItem => item.WareID)
+                @Html.DisplayFor(modelItem => item.WareName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Count)

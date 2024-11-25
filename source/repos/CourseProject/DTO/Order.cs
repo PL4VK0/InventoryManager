@@ -6,7 +6,19 @@
         private short managerID;
         private short wareID;
         private short count;
+        private string wareName;
+        private string userName;
         private DateTime date = DateTime.UtcNow;
+        public string WareName
+        {
+            get { return wareName; }
+            set { wareName = value; }
+        }
+        public string UserName
+        {
+            get { return userName; }
+            set { userName = value; }
+        }
         public short WareID
         {
             get { return wareID; }

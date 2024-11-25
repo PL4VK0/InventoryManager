@@ -56,7 +56,7 @@ namespace Course_Project_MVC.Controllers
                 //test drops here because of null reference
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authenticationProps);
                 string? ReturnUrl = returnUrl;
-                if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(ReturnUrl))
+                if (!string.IsNullOrEmpty(ReturnUrl) && Url.IsLocalUrl(ReturnUrl))
                     return Redirect(ReturnUrl);
                 return RedirectToAction("Index", "Home");
             }
